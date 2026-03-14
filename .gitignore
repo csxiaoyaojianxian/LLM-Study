@@ -1,5 +1,63 @@
-# Object file
-*.o
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
 
-# Ada Library Information
-*.ali
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Model files
+*.bin
+*.gguf
+*.ggml
+*.pt
+*.pth
+*.safetensors
+
+# Data
+*.csv
+*.tsv
+*.parquet
+data/
+
+# Temporary files
+tmp/
+temp/
