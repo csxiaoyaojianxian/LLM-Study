@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Chat - DeepSeek</title>
+  <style>
+    body { max-width: 800px; margin: 0 auto; padding: 20px; font-family: sans-serif; }
+    #messages { border: 1px solid #ddd; height: 400px; overflow-y: auto; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
+    .user { color: #0066cc; margin: 10px 0; padding: 8px; background: #e6f2ff; border-radius: 8px; }
+    .assistant { color: #006600; margin: 10px 0; padding: 8px; background: #e6ffe6; border-radius: 8px; }
+    #inputArea { display: flex; gap: 10px; }
+    input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+    button { padding: 10px 20px; background: #0066cc; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #0052a3; }
+    .loading { color: #999; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>🤖 DeepSeek AI Chat</h1>
+  <div id="messages"></div>
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="输入消息..." onkeypress="if(event.key==='Enter')sendMessage()">
+    <button onclick="sendMessage()">发送</button>
+  </div>
+
+  <script>
+    // const API_KEY = 'sk-你的实际APIkey';  // 换成你的DeepSeek Key
+    const API_KEY = 'sk-';  // 换成你的DeepSeek Key
+    const API_URL = 'https://api.deepseek.com/chat/completions';
+    let conversationHistory = [
+      { role: 'system', content: 'You are a helpful assistant.' }
+    ];
+
+    // function calling
+    const tools = [
+      {
+        type: "function",
+        function: {
+          name: "get_weather",
+          description: "获取指定城市的当前天气信息",
+          parameters: {
+            type: "object",
+            properties: {
+              city: {
+                type: "string",
+                description: "城市名称，如'北京'、'上海'"
+              }
+            },
+            required: ["city"]
+          }
+        }
+      }
+    ];
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const userMessage = input.value.trim();
+      if (!userMessage) return;
+      appendMessage('user', userMessage);
+      conversationHistory.push({ role: 'user', content: userMessage });
+      input.value = '';
+      const loadingId = appendMessage('assistant', '思考中...', true);
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${API_KEY}`
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages: conversationHistory,
+            // stream: true,
+            tools: tools,           // ← 传入工具定义
+            tool_choice: 'auto'     // ← 让AI自动选择
+          })
+        });
+
+        const data = await response.json();
+        const assistantMessage = data.choices[0].message;
+        // 检查是否需要调用工具
+        if (assistantMessage.tool_calls) {
+          // AI要求调用工具
+          const toolCall = assistantMessage.tool_calls[0];
+          const functionName = toolCall.function.name;
+          const functionArgs = JSON.parse(toolCall.function.arguments);
+          
+          // 执行工具函数
+          let toolResult;
+          if (functionName === 'get_weather') {
+            toolResult = await getWeather(functionArgs.city);
+          }
+          
+          // 把工具调用和结果加入历史
+          conversationHistory.push({
+            role: 'assistant',
+            content: null,
+            tool_calls: [toolCall]
+          });
+          conversationHistory.push({
+            role: 'tool',
+            tool_call_id: toolCall.id,
+            content: JSON.stringify(toolResult)
+          });
+          
+          // 第二次请求：让AI根据工具结果回复用户
+          const finalResponse = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+              model: 'deepseek-chat',
+              messages: conversationHistory
+            })
+          });
+          
+          const finalData = await finalResponse.json();
+          const finalReply = finalData.choices[0].message.content;
+          
+          appendMessage('assistant', finalReply);
+          conversationHistory.push({ role: 'assistant', content: finalReply });
+        } else {
+          // 不需要调用工具，直接回复
+          const reply = assistantMessage.content;
+          appendMessage('assistant', reply);
+          conversationHistory.push({ role: 'assistant', content: reply });
+        }
+      } catch (error) {
+        removeMessage(loadingId);
+        appendMessage('assistant', '请求失败: ' + error.message);
+      }
+    }
+
+    function appendMessage(role, content, isLoading = false) {
+      const div = document.createElement('div');
+      div.className = role + (isLoading ? ' loading' : '');
+      div.textContent = (role === 'user' ? '👤 你: ' : '🤖 AI: ') + content;
+      div.id = 'msg-' + Date.now();
+      document.getElementById('messages').appendChild(div);
+      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+      return div.id;
+    }
+
+    function appendToMessage(id, content) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent += content;
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+      }
+    }
+
+    function removeMessage(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    // 模拟天气API（实际项目中调用真实天气API）
+    async function getWeather(city) {
+      // 模拟数据
+      const mockWeather = {
+        '北京': { temp: 25, condition: '晴', humidity: '40%' },
+        '上海': { temp: 28, condition: '多云', humidity: '65%' },
+        '深圳': { temp: 30, condition: '雷阵雨', humidity: '80%' }
+      };
+      
+      const weather = mockWeather[city] || { temp: 20, condition: '未知', humidity: '50%' };
+      
+      return {
+        city: city,
+        temperature: weather.temp,
+        condition: weather.condition,
+        humidity: weather.humidity,
+        updateTime: new Date().toLocaleString()
+      };
+    }
+  </script>
+</body>
+</html>
