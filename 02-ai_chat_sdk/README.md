@@ -1,52 +1,36 @@
-# 用 Vercel AI SDK 重构项目
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-```
-$ npx create-next-app@latest 02-ai_chat_sdk --typescript --tailwind --app --use-npm
-$ cd 02-ai_chat_sdk
-$ npm install ai @ai-sdk/react @ai-sdk/deepseek
-```
+## Getting Started
 
-创建  ⁠app/api/chat/route.ts⁠ ：
+First, run the development server:
 
-```
-import { deepseek } from '@ai-sdk/deepseek';
-import { streamText } from 'ai';
-
-export const maxDuration = 30;
-
-export async function POST(req: Request) {
-  const { messages } = await req.json();
-
-  const result = streamText({
-    model: deepseek('deepseek-chat'),
-    messages,
-  });
-
-  return result.toTextStreamResponse();
-}
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-对比之前：
-不用手动写fetch
-不用处理Authorization
-自动流式输出
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-创建  ⁠app/page.tsx⁠ ：
+## Learn More
 
+To learn more about Next.js, take a look at the following resources:
 
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-创建  ⁠.env.local⁠ ：
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-```
-DEEPSEEK_API_KEY=你的DeepSeek_API_Key
-```
+## Deploy on Vercel
 
-新版 @ai-sdk/react v3 发给服务端的 messages 是 UIMessage 格式（包含 parts、id 等字段），而 streamText 期望的是 ModelMessage     
-  格式（{ role, content }）。加上 convertToModelMessages() 做转换后，请求就能正常处理了。
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-用AI SDK实现Function Calling。
-
-创建  ⁠app/api/chat/tools.ts⁠ ：
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

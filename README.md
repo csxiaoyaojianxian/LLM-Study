@@ -30,3 +30,33 @@
  ●AI代码生成工具（Cursor/Windsurf深度使用）
  ●本地模型部署（Ollama/LM Studio）
  ●AI安全与对齐
+
+
+
+
+前端 AI 工程化	在 React/Vue 中接入 LLM、流式输出实现	
+AI 辅助开发	Cursor/Copilot 实战、Prompt 工程技巧	
+浏览器端 AI	WebLLM、Transformers.js 跑模型	
+AI Agent 实践	用 JS/TS 构建 Agent、工具调用	
+多模态 & 视觉	前端图像处理 + AI 结合	
+RAG & 知识库	构建自己的 AI 知识问答系统	
+
+
+第一阶段：打基础（1-2周）
+1. 理解核心概念：LLM / Prompt / Tool Calling / RAG
+2. 跑通 Vercel AI SDK + Next.js 的流式对话
+3. 实现一个带工具调用的简单Agent
+第二阶段：上手框架（2-3周）
+1. LangChain.js 或 LangGraph —— 学Chain/Graph思维
+2. 用 Dify/Flowise 可视化理解Agent结构
+3. 实战：RAG知识库问答 / 搜索Agent
+第三阶段：进阶实践（持续）
+1. 多Agent协作（AutoGen/CrewAI）
+2. Agent记忆（短期/长期Memory）
+3. MCP协议（Model Context Protocol）—— 2026最热新标准
+
+
+1. 先用 Vercel AI SDK —— 最低成本上手，直接在Next.js里跑
+2. 再学 LangGraph —— 理解Agent工作流的本质
+3. 了解 MCP协议 —— 这是AI工具调用的新标准，趋势很猛
+其实你现在用的 OpenClaw 本身就是一个Agent系统，它用的就是MCP协议（mcporter就是MCP客户端）。你每天都在和Agent交互，理解起来会更直观 😄
