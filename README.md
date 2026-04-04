@@ -1,62 +1,172 @@
 # LLM-Study
-大语言模型学习实践案例
 
+> 大语言模型学习实践 — 从零到一的 AI 应用开发之路
 
-🗺️ 全栈开发者AI学习路线图
-阶段一：AI基础认知（第1-2周）
-目标： 建立对AI的核心概念理解，不急于动手
-主题	内容	输出	大模型原理	Transformer架构、Token、上下文窗口	用自己的话画图解释	Prompt工程	角色设定、Few-shot、Chain-of-Thought	整理Prompt模板库	主流模型对比	GPT/Claude/Gemini/DeepSeek特点	选型决策表	AI应用形态	Chatbot、Copilot、Agent、Workflow	产品形态分类	
-本周实践： 深度使用Claude/GPT，记录高质量Prompt案例
+面向 Web 开发者的 LLM 应用开发系统教程，以 **TypeScript/Node.js** 为主要技术栈，每个模块包含可运行代码 + 配套中文教程文章。
 
-阶段二：AI开发入门（第3-4周）
-目标： 调用API，构建第一个AI应用
-主题	技术栈	项目	LLM API调用	OpenAI/Claude API、流式输出	智能聊天界面	前端AI组件	AI SDK、流式UI、思维链展示	类ChatGPT的Web界面	Embedding & 向量	文本向量化、相似度计算	简单语义搜索	Function Calling	工具调用、结构化输出	能查天气的AI助手	
-本周实践： 用Next.js + AI SDK做一个支持工具调用的Chat界面
+📦 源码：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
-阶段三：RAG系统（第5-6周）
-目标： 实现知识库问答系统
-主题	关键技术	输出	RAG架构	检索-重排-生成流程	架构图	向量数据库	Pinecone/Milvus/Chroma选型	对比表格	文档处理	分块策略、PDF解析、元数据	文档处理Pipeline	高级RAG	多路召回、查询重写、重排序	优化后的搜索系统	本周实践： 搭建个人知识库问答系统，支持PDF/网页导入			
+---
 
-阶段四：AI Agent（第7-8周）
-目标： 理解并构建能执行任务的Agent
-主题	核心概念	实践	Agent架构	Planning、Memory、Tools、Action	拆解开源Agent代码	ReAct模式	推理-行动循环	实现简单ReAct Agent	MCP协议	工具调用标准化	开发MCP Server	Multi-Agent	多Agent协作、编排	尝试Coze/Dify框架	本周实践： 开发一个MCP Server（如GitHub操作工具），集成到Claude Code			
+## 学习路线
 
-阶段五：AI工程化（第9-10周）
-目标： 生产级AI应用开发
-主题	关注点	技能	模型微调	LoRA、数据集准备、评估	小模型微调实验	成本优化	Token优化、缓存、模型路由	成本对比分析	可靠性	错误处理、Fallback、限流	鲁棒性设计	部署运维	推理服务、监控、A/B测试	Docker化部署	本周实践： 构建一个带成本控制的AI应用，含错误处理和监控			
+```
+基础篇 ──────────────────────── 已完成 ✅
+│ 01-Start           纯前端 HTML 示例
+│ 02-ai_chat_sdk     Next.js + Vercel AI SDK
+│
+进阶篇 ──────────────────────── 第2-3期
+│ 03-prompt_engineering   Prompt 工程 + 多模型适配
+│ 04-rag                  RAG 检索增强生成 ⭐
+│
+框架篇 ──────────────────────── 第4-5期
+│ 05-langchain       LangChain.js 框架
+│ 06-agent           AI Agent 智能体 ⭐
+│
+生态篇 ──────────────────────── 第6-7期
+│ 07-mcp             MCP 协议与服务 ⭐
+│ 08-skill           Claude Skill 开发
+│
+扩展篇 ──────────────────────── 第8-9期
+│ 09-multimodal      多模态应用
+│ 10-deployment      本地部署与优化
+```
 
-阶段六：前沿探索（持续）
- ●多模态（图像/音频理解）
- ●AI代码生成工具（Cursor/Windsurf深度使用）
- ●本地模型部署（Ollama/LM Studio）
- ●AI安全与对齐
+---
 
+## 模块总览
 
+### 基础篇（已完成 ✅）
 
+| 模块 | 内容 | 教程 |
+| --- | --- | --- |
+| [01-Start](./01-Start/) | 纯前端 HTML 实现 AI 聊天，涵盖基础对话、流式输出、对话历史、Function Calling | [第1期教程](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) |
+| [02-ai_chat_sdk](./02-ai_chat_sdk/) | 使用 Next.js + Vercel AI SDK 构建完整聊天应用，体验框架级开发效率 | [第1期教程](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) |
 
-前端 AI 工程化	在 React/Vue 中接入 LLM、流式输出实现	
-AI 辅助开发	Cursor/Copilot 实战、Prompt 工程技巧	
-浏览器端 AI	WebLLM、Transformers.js 跑模型	
-AI Agent 实践	用 JS/TS 构建 Agent、工具调用	
-多模态 & 视觉	前端图像处理 + AI 结合	
-RAG & 知识库	构建自己的 AI 知识问答系统	
+### 进阶篇
 
+| 模块 | 内容 | 状态 |
+| --- | --- | --- |
+| [03-prompt_engineering](./03-prompt_engineering/) | **Prompt 工程进阶** — System Prompt 设计模式、CoT 思维链、Few-shot 对比实验、结构化输出（JSON Mode）、多模型统一适配层封装 | ✅ |
+| 04-rag | **RAG 检索增强生成** — 文本分块策略、Embedding 向量化、向量数据库（ChromaDB/Qdrant）、检索策略（相似度/MMR/混合）、完整 RAG Pipeline、对话式 RAG | 🔜 |
 
-第一阶段：打基础（1-2周）
-1. 理解核心概念：LLM / Prompt / Tool Calling / RAG
-2. 跑通 Vercel AI SDK + Next.js 的流式对话
-3. 实现一个带工具调用的简单Agent
-第二阶段：上手框架（2-3周）
-1. LangChain.js 或 LangGraph —— 学Chain/Graph思维
-2. 用 Dify/Flowise 可视化理解Agent结构
-3. 实战：RAG知识库问答 / 搜索Agent
-第三阶段：进阶实践（持续）
-1. 多Agent协作（AutoGen/CrewAI）
-2. Agent记忆（短期/长期Memory）
-3. MCP协议（Model Context Protocol）—— 2026最热新标准
+### 框架篇
 
+| 模块 | 内容 | 状态 |
+| --- | --- | --- |
+| 05-langchain | **LangChain.js 框架** — 核心概念（Model/Prompt/Chain/Memory/Tool）、LCEL 链式调用、用 LangChain 重构 RAG、Memory 对话记忆、Output Parser、自定义 Tool | 🔜 |
+| 06-agent | **AI Agent 智能体** — ReAct 模式、多工具编排（搜索/计算/文件操作）、LangChain Agent vs AI SDK Agent 对比、Multi-Agent 协作、Agent 记忆与状态管理 | 🔜 |
 
-1. 先用 Vercel AI SDK —— 最低成本上手，直接在Next.js里跑
-2. 再学 LangGraph —— 理解Agent工作流的本质
-3. 了解 MCP协议 —— 这是AI工具调用的新标准，趋势很猛
-其实你现在用的 OpenClaw 本身就是一个Agent系统，它用的就是MCP协议（mcporter就是MCP客户端）。你每天都在和Agent交互，理解起来会更直观 😄
+### 生态篇
+
+| 模块 | 内容 | 状态 |
+| --- | --- | --- |
+| 07-mcp | **MCP 协议与服务** — MCP 核心概念（Resources/Tools/Prompts/Sampling）、从零实现 MCP Server（TypeScript SDK）、MCP Client 调试、在 Claude 中使用自建 Server、个人知识库 MCP Server 实战 | 🔜 |
+| 08-skill | **Claude Skill 开发** — Slash Commands / Hooks / Custom Instructions、自定义 Skill（代码审查/测试生成/文档生成）、Hooks 自动化工作流、settings.json 配置详解 | 🔜 |
+
+### 扩展篇
+
+| 模块 | 内容 | 状态 |
+| --- | --- | --- |
+| 09-multimodal | **多模态应用** — Vision 图片理解与分析、图片生成（DALL-E/Stable Diffusion）、语音识别（Whisper）与语音合成（TTS）、多模态对话应用 | 🔜 |
+| 10-deployment | **本地部署与优化** — Ollama 本地部署开源模型、本地模型整合替换、生产环境优化（缓存/限流/Token 计费/监控）、Prompt 缓存与成本控制 | 🔜 |
+
+---
+
+## 技术栈
+
+| 类别 | 技术 |
+| --- | --- |
+| 语言 | TypeScript / Node.js |
+| 前端框架 | Next.js / React |
+| AI SDK | Vercel AI SDK / LangChain.js |
+| LLM 模型 | DeepSeek / OpenAI / Claude（多模型切换） |
+| 向量数据库 | ChromaDB / Qdrant |
+| 本地部署 | Ollama |
+| AI 生态 | MCP Protocol / Claude Skill |
+| 部署 | Vercel / Docker |
+
+---
+
+## 快速开始
+
+### 环境要求
+
+- Node.js >= 18
+- pnpm（推荐）或 npm
+- 至少一个 LLM API Key（DeepSeek / OpenAI / Claude）
+
+### 运行已完成的模块
+
+**01-Start — 纯前端示例**
+
+直接在浏览器中打开 HTML 文件即可，需要在页面中填入 API Key。
+
+**02-ai_chat_sdk — Next.js 聊天应用**
+
+```bash
+cd 02-ai_chat_sdk
+cp .env.example .env.local  # 配置你的 API Key
+pnpm install
+pnpm dev
+# 访问 http://localhost:3000
+```
+
+**03-prompt_engineering — Prompt 工程进阶**
+
+```bash
+cd 03-prompt_engineering
+cp .env.example .env  # 配置至少一个 API Key
+npm install
+npm run model-adapter       # 多模型适配
+npm run prompt-templates     # Prompt 模板引擎
+npm run structured-output    # 结构化输出
+npm run cot-demo             # 思维链对比
+```
+
+---
+
+## 项目结构
+
+```
+LLM-Study/
+├── 01-Start/                          ✅ 纯前端 HTML 示例
+│   ├── 01-chat.html                   基础对话
+│   ├── 02-chat_stream.html            流式输出
+│   ├── 03-history.html                对话历史
+│   └── 04-function_calling.html       Function Calling
+├── 02-ai_chat_sdk/                    ✅ Next.js + AI SDK
+├── 03-prompt_engineering/             ✅ Prompt 工程进阶
+├── 04-rag/                            🔜 RAG 检索增强生成
+├── 05-langchain/                      🔜 LangChain.js 框架
+├── 06-agent/                          🔜 AI Agent 智能体
+├── 07-mcp/                            🔜 MCP 协议与服务
+├── 08-skill/                          🔜 Claude Skill 开发
+├── 09-multimodal/                     🔜 多模态应用
+├── 10-deployment/                     🔜 本地部署与优化
+└── README.md                          📍 学习路线总览（本文件）
+```
+
+---
+
+## 配套教程
+
+每个模块配套一篇中文教程文章，记录从原理到实现的完整过程：
+
+| 期数 | 教程 | 状态 |
+| --- | --- | --- |
+| 第1期 | [前端er从零构建智能聊天应用](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) | ✅ |
+| 第2期 | Prompt 工程进阶与多模型适配 | 🔜 |
+| 第3期 | RAG 检索增强生成实战 | 🔜 |
+| 第4期 | LangChain.js 框架入门 | 🔜 |
+| 第5期 | AI Agent 智能体开发 | 🔜 |
+| 第6期 | MCP 协议与服务开发 | 🔜 |
+| 第7期 | Claude Skill 开发 | 🔜 |
+| 第8期 | 多模态应用开发 | 🔜 |
+| 第9期 | 本地部署与生产优化 | 🔜 |
+
+---
+
+## License
+
+[MIT](./LICENSE)

@@ -2,7 +2,7 @@
 
 本系列面向传统web应用开发者，聚焦AI应用开发的实战技能。
 本节从零构建一个功能完整的AI聊天应用，支持流式输出、多轮对话和 Function Calling（工具调用），最终部署为可访问的线上服务。
-技术栈：Next.js + AI SDK + DeepSeek API
+技术栈：Next.js + AI SDK + DeepSeek API + Vercel
 源代码：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、前置知识：走进大模型的世界
