@@ -48,7 +48,7 @@
 | 模块 | 内容 | 状态 |
 | --- | --- | --- |
 | [03-prompt_engineering](./03-prompt_engineering/) | **Prompt 工程进阶** — System Prompt 设计模式、CoT 思维链、Few-shot 对比实验、结构化输出（JSON Mode）、多模型统一适配层封装 | ✅ |
-| 04-rag | **RAG 检索增强生成** — 文本分块策略、Embedding 向量化、向量数据库（ChromaDB/Qdrant）、检索策略（相似度/MMR/混合）、完整 RAG Pipeline、对话式 RAG | 🔜 |
+| [04-rag](./04-rag/) | **RAG 检索增强生成** — 文本分块策略、Embedding 向量化、向量数据库（ChromaDB）、相似度检索、完整 RAG Pipeline、对话式 RAG | ✅ |
 
 ### 框架篇
 
@@ -124,6 +124,22 @@ npm run structured-output    # 结构化输出
 npm run cot-demo             # 思维链对比
 ```
 
+**04-rag — RAG 检索增强生成**
+
+```bash
+cd 04-rag
+cp .env.example .env  # 配置至少一个 API Key
+npm install
+npm run chunking            # 分块策略对比（无需 ChromaDB）
+npm run embeddings          # 本地 embedding（无需 ChromaDB，首次下载 ~90MB）
+# 启动 ChromaDB（新终端窗口，二选一）
+docker run -d -p 8000:8000 chromadb/chroma              # Docker 方式
+# 或: python3 -m venv .venv && .venv/bin/pip install chromadb && .venv/bin/chroma run --path ./chroma-data
+npm run rag-pipeline        # 完整 RAG 对比
+npm run rag-optimize        # RAG 优化对比实验
+npm run conversational-rag  # 对话式 RAG
+```
+
 ---
 
 ## 项目结构
@@ -137,7 +153,7 @@ LLM-Study/
 │   └── 04-function_calling.html       Function Calling
 ├── 02-ai_chat_sdk/                    ✅ Next.js + AI SDK
 ├── 03-prompt_engineering/             ✅ Prompt 工程进阶
-├── 04-rag/                            🔜 RAG 检索增强生成
+├── 04-rag/                            ✅ RAG 检索增强生成
 ├── 05-langchain/                      🔜 LangChain.js 框架
 ├── 06-agent/                          🔜 AI Agent 智能体
 ├── 07-mcp/                            🔜 MCP 协议与服务

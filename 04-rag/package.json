@@ -1,0 +1,28 @@
+{
+  "name": "04-rag",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "chunking": "tsx src/chunking.ts",
+    "embeddings": "tsx src/embeddings.ts",
+    "rag-pipeline": "tsx src/rag-pipeline.ts",
+    "conversational-rag": "tsx src/conversational-rag.ts",
+    "rag-optimize": "tsx src/rag-optimize.ts"
+  },
+  "dependencies": {
+    "ai": "^6.0.116",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "@ai-sdk/openai": "^2.0.0",
+    "@ai-sdk/anthropic": "^2.0.0",
+    "zod": "^3.23.0",
+    "dotenv": "^16.4.0",
+    "chromadb": "^1.9.2",
+    "@xenova/transformers": "^2.17.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5",
+    "@types/node": "^20"
+  }
+}

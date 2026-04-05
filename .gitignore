@@ -56,7 +56,7 @@ logs/
 *.csv
 *.tsv
 *.parquet
-data/
+chroma-data/
 
 # Temporary files
 tmp/
