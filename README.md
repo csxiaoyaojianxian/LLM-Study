@@ -54,7 +54,7 @@
 
 | 模块 | 内容 | 状态 |
 | --- | --- | --- |
-| 05-langchain | **LangChain.js 框架** — 核心概念（Model/Prompt/Chain/Memory/Tool）、LCEL 链式调用、用 LangChain 重构 RAG、Memory 对话记忆、Output Parser、自定义 Tool | 🔜 |
+| [05-langchain](./05-langchain/) | **LangChain.js 框架** — 核心概念（Model/Prompt/Chain/Memory/Tool）、LCEL 链式调用、用 LangChain 重构 RAG、Memory 对话记忆、Output Parser、自定义 Tool | ✅ |
 | 06-agent | **AI Agent 智能体** — ReAct 模式、多工具编排（搜索/计算/文件操作）、LangChain Agent vs AI SDK Agent 对比、Multi-Agent 协作、Agent 记忆与状态管理 | 🔜 |
 
 ### 生态篇
@@ -70,6 +70,21 @@
 | --- | --- | --- |
 | 09-multimodal | **多模态应用** — Vision 图片理解与分析、图片生成（DALL-E/Stable Diffusion）、语音识别（Whisper）与语音合成（TTS）、多模态对话应用 | 🔜 |
 | 10-deployment | **本地部署与优化** — Ollama 本地部署开源模型、本地模型整合替换、生产环境优化（缓存/限流/Token 计费/监控）、Prompt 缓存与成本控制 | 🔜 |
+
+**05-langchain — LangChain.js 框架**
+
+```bash
+cd 05-langchain
+cp .env.example .env  # 配置至少一个 API Key
+npm install
+npm run model-chat        # Model 基础（ChatOpenAI + 流式输出）
+npm run prompt-lcel       # LCEL 链式调用
+npm run output-parser     # 结构化输出
+npm run memory-chat       # 对话记忆
+npm run custom-tool       # 自定义 Tool + Agent（推荐使用 OpenAI Key）
+# 启动 ChromaDB（同 04-rag）
+npm run rag-langchain     # LangChain RAG
+```
 
 ---
 
@@ -154,7 +169,7 @@ LLM-Study/
 ├── 02-ai_chat_sdk/                    ✅ Next.js + AI SDK
 ├── 03-prompt_engineering/             ✅ Prompt 工程进阶
 ├── 04-rag/                            ✅ RAG 检索增强生成
-├── 05-langchain/                      🔜 LangChain.js 框架
+├── 05-langchain/                      ✅ LangChain.js 框架
 ├── 06-agent/                          🔜 AI Agent 智能体
 ├── 07-mcp/                            🔜 MCP 协议与服务
 ├── 08-skill/                          🔜 Claude Skill 开发
