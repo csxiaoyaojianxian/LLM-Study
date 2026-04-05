@@ -17,8 +17,8 @@ import "dotenv/config";
 import { readFileSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
-import { ChromaClient, type Collection } from "chromadb";
-import { LocalEmbedding, cosineSimilarity } from "./embeddings.js";
+import { ChromaClient } from "chromadb";
+import { LocalEmbedding } from "./embeddings.js";
 import { recursiveCharacterChunk } from "./chunking.js";
 import { chatWithModel, getDefaultProvider, type Provider } from "./model-adapter.js";
 
