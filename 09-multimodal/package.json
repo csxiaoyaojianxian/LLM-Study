@@ -1,0 +1,26 @@
+{
+  "name": "09-multimodal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "vision": "tsx src/vision.ts",
+    "image-gen": "tsx src/image-gen.ts",
+    "speech": "tsx src/speech.ts",
+    "transcription": "tsx src/transcription.ts",
+    "multimodal-chat": "tsx src/multimodal-chat.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.0",
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "ai": "^6.0.116",
+    "zod": "^3.23.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5",
+    "@types/node": "^20"
+  }
+}

@@ -61,15 +61,15 @@
 
 | 模块 | 内容 | 状态 |
 | --- | --- | --- |
-| 07-mcp | **MCP 协议与服务** — MCP 核心概念（Resources/Tools/Prompts/Sampling）、从零实现 MCP Server（TypeScript SDK）、MCP Client 调试、在 Claude 中使用自建 Server、个人知识库 MCP Server 实战 | 🔜 |
-| 08-skill | **Claude Skill 开发** — Slash Commands / Hooks / Custom Instructions、自定义 Skill（代码审查/测试生成/文档生成）、Hooks 自动化工作流、settings.json 配置详解 | 🔜 |
+| [07-mcp](./07-mcp/) | **MCP 协议与服务** — MCP 核心概念（Resources/Tools/Prompts/Sampling）、从零实现 MCP Server（TypeScript SDK）、MCP Client 调试、在 Claude 中使用自建 Server、个人知识库 MCP Server 实战 | ✅ |
+| [08-skill](./08-skill/) | **Claude Skill 开发** — Slash Commands / Hooks / Custom Instructions、自定义 Skill（代码审查/测试生成/文档生成）、Hooks 自动化工作流、settings.json 配置详解 | ✅ |
 
 ### 扩展篇
 
 | 模块 | 内容 | 状态 |
 | --- | --- | --- |
-| 09-multimodal | **多模态应用** — Vision 图片理解与分析、图片生成（DALL-E/Stable Diffusion）、语音识别（Whisper）与语音合成（TTS）、多模态对话应用 | 🔜 |
-| 10-deployment | **本地部署与优化** — Ollama 本地部署开源模型、本地模型整合替换、生产环境优化（缓存/限流/Token 计费/监控）、Prompt 缓存与成本控制 | 🔜 |
+| [09-multimodal](./09-multimodal/) | **多模态应用** — Vision 图片理解与分析、图片生成（DALL-E）、语音识别（Whisper）与语音合成（TTS）、多模态综合对话应用 | ✅ |
+| [10-deployment](./10-deployment/) | **本地部署与优化** — Ollama 本地部署开源模型、本地模型整合替换、生产环境优化（缓存/限流/Token 计费/监控）、成本控制 | ✅ |
 
 
 ---
@@ -168,6 +168,59 @@ npm run state-graph      # StateGraph 自定义流程图（条件分支、循环
 npm run memory-agent     # Agent 记忆（MemorySaver、多会话隔离、状态回溯）
 npm run multi-agent      # Multi-Agent 协作（顺序流水线、条件路由循环改进）
 ```
+
+**07-mcp — MCP 协议与服务**
+
+```bash
+cd 07-mcp
+cp .env.example .env  # 配置至少一个 API Key
+npm install
+npm run mcp-basics      # MCP 核心概念（无需 API Key）
+npm run mcp-tools       # Tools 注册、调用、LLM 集成
+npm run mcp-resources   # Resources 暴露与读取（无需 API Key）
+npm run mcp-prompts     # Prompts 模板与 LLM 执行
+npm run mcp-client      # 通用 Client 调试（无需 API Key）
+npm run mcp-knowledge   # 知识库问答实战
+```
+
+**08-skill — Claude Skill 开发**
+
+```bash
+cd 08-skill
+npm install
+npm run showcase          # 总览所有配置示例
+npm run hooks-demo        # Hook 机制详解
+npm run settings-explain  # Settings 层级详解
+npm run setup             # 一键安装示例到 .claude/
+```
+
+**09-multimodal — 多模态应用**
+
+```bash
+cd 09-multimodal
+cp .env.example .env  # 配置 API Key（Vision/DALL-E/TTS/Whisper 需要 OpenAI Key）
+npm install
+npm run vision            # 图片理解（Vision）
+npm run image-gen         # 图片生成（DALL-E 3）
+npm run speech            # 语音合成（TTS）
+npm run transcription     # 语音识别（Whisper）
+npm run multimodal-chat   # 多模态综合演示
+```
+
+**10-deployment — 本地部署与优化**
+
+```bash
+cd 10-deployment
+cp .env.example .env  # 配置 API Key（部分 demo 需要）
+npm install
+# Ollama demo 需要先安装 Ollama 并拉取模型: ollama pull qwen2.5:0.5b
+npm run ollama-basics     # Ollama 本地部署基础
+npm run ollama-replace    # 云端 vs 本地模型对比
+npm run caching           # 缓存策略（纯逻辑，无需 API Key）
+npm run token-cost        # Token 计费与成本控制
+npm run rate-limit        # 限流与并发控制（纯逻辑，无需 API Key）
+npm run monitoring        # 监控与日志（纯逻辑，无需 API Key）
+```
 ---
 
 ## 项目结构
@@ -184,10 +237,10 @@ LLM-Study/
 ├── 04-rag/                            ✅ RAG 检索增强生成
 ├── 05-langchain/                      ✅ LangChain.js 框架
 ├── 06-agent/                          ✅ AI Agent 智能体
-├── 07-mcp/                            🔜 MCP 协议与服务
-├── 08-skill/                          🔜 Claude Skill 开发
-├── 09-multimodal/                     🔜 多模态应用
-├── 10-deployment/                     🔜 本地部署与优化
+├── 07-mcp/                            ✅ MCP 协议与服务
+├── 08-skill/                          ✅ Claude Skill 开发
+├── 09-multimodal/                     ✅ 多模态应用
+├── 10-deployment/                     ✅ 本地部署与优化
 └── README.md                          📍 学习路线总览（本文件）
 ```
 

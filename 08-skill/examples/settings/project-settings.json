@@ -1,0 +1,34 @@
+{
+  "// 说明": "项目级 settings.json — 针对特定项目的配置",
+  "// 路径": "<project>/.claude/settings.json",
+  "// 备注": "会与全局设置合并，项目级优先",
+
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npx tsx *)",
+      "Bash(git *)",
+      "Write(src/**)",
+      "Edit(src/**)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Write(.env*)"
+    ]
+  },
+
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-commit-notify.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

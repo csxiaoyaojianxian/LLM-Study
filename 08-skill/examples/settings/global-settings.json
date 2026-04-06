@@ -1,0 +1,45 @@
+{
+  "// 说明": "全局 settings.json — 适用于所有项目",
+  "// 路径": "~/.claude/settings.json",
+
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch"
+    ],
+    "deny": []
+  },
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/pre-write-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/post-edit-format.sh"
+          }
+        ]
+      }
+    ]
+  },
+
+  "preferences": {
+    "language": "zh-CN",
+    "theme": "auto"
+  }
+}

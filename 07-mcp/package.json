@@ -1,0 +1,32 @@
+{
+  "name": "07-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "mcp-basics": "tsx src/mcp-basics.ts",
+    "mcp-tools": "tsx src/mcp-tools.ts",
+    "mcp-resources": "tsx src/mcp-resources.ts",
+    "mcp-prompts": "tsx src/mcp-prompts.ts",
+    "mcp-client": "tsx src/mcp-client.ts",
+    "mcp-knowledge": "tsx src/mcp-knowledge.ts",
+    "server:tools": "tsx src/servers/tools-server.ts",
+    "server:resources": "tsx src/servers/resources-server.ts",
+    "server:prompts": "tsx src/servers/prompts-server.ts",
+    "server:knowledge": "tsx src/servers/knowledge-server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "@ai-sdk/openai": "^2.0.0",
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "ai": "^6.0.116",
+    "zod": "^3.23.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5",
+    "@types/node": "^20"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "10-deployment",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "ollama-basics": "tsx src/ollama-basics.ts",
+    "ollama-replace": "tsx src/ollama-replace.ts",
+    "caching": "tsx src/caching.ts",
+    "token-cost": "tsx src/token-cost.ts",
+    "rate-limit": "tsx src/rate-limit.ts",
+    "monitoring": "tsx src/monitoring.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "@ai-sdk/openai": "^2.0.0",
+    "ai": "^6.0.116",
+    "dotenv": "^16.4.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

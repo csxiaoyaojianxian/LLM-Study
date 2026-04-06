@@ -1,0 +1,16 @@
+{
+  "// 说明": "本地 settings.json — 个人本地覆盖（不提交到 git）",
+  "// 路径": "<project>/.claude/settings.local.json",
+  "// 备注": "最高优先级，用于个人开发环境的特殊配置",
+
+  "permissions": {
+    "allow": [
+      "Bash(docker *)",
+      "Bash(kubectl *)"
+    ]
+  },
+
+  "preferences": {
+    "verbose": true
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "08-skill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "showcase": "tsx src/showcase.ts",
+    "setup": "tsx src/setup.ts",
+    "hooks-demo": "tsx src/hooks-demo.ts",
+    "settings-explain": "tsx src/settings-explain.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5",
+    "@types/node": "^20"
+  }
+}
