@@ -558,7 +558,7 @@ async function main() {
   //
   // Checkpoint {
   //   id: "1ef8...",               // checkpoint ID（uuid6，有序，可用于回溯）
-  //   ts: "2024-01-15T10:30:00Z",  // 时间戳
+  //   ts: "2026-01-15T10:30:00Z",  // 时间戳
   //   channel_values: {            // ⭐ 核心：所有 Annotation 字段的当前值（白板快照）
   //     request: "重构数据库访问层",
   //     plan: "1. 抽象DAO层...",

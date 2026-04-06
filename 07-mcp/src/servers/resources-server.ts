@@ -6,7 +6,7 @@
  * 运行: npm run server:resources
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import fs from "fs/promises";
 import path from "path";
@@ -36,7 +36,7 @@ server.resource(
         "🛠️ 技术栈: TypeScript / Node.js / Vercel AI SDK",
         "📚 模块数: 10 个（基础篇 → 扩展篇）",
         "👤 作者: csxiaoyao",
-        "📅 更新时间: 2024",
+        "📅 更新时间: 2026",
       ].join("\n"),
     }],
   })
@@ -71,11 +71,20 @@ server.resource(
 // 动态资源: 读取文件
 // ============================================================
 
+/**
+ * 动态资源: 读取文件
+ *
+ * 与静态资源不同，动态资源使用 ResourceTemplate 注册，
+ * URI 中包含模板变量 {path}，客户端传入实际路径后匹配。
+ * listResourceTemplates() 会返回此模板，listResources() 不会。
+ */
+
 server.resource(
   "file-reader",
-  "file:///{path}",
+  new ResourceTemplate("file:///{path}", { list: undefined }),
   async (uri) => {
-    const filePath = decodeURIComponent(uri.pathname);
+    // uri.pathname 返回 "/package.json"（带前导 /），需要去掉再拼接
+    const filePath = decodeURIComponent(uri.pathname).replace(/^\//, "");
     // 安全检查：只允许读取项目目录下的文件
     const projectRoot = path.resolve(__dirname, "../..");
     const fullPath = path.resolve(projectRoot, filePath);
