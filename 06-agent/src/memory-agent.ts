@@ -11,11 +11,13 @@
  */
 
 import "dotenv/config";
+import * as fs from "fs";
+import * as path from "path";
 import { z } from "zod";
 import { tool } from "@langchain/core/tools";
-import { HumanMessage } from "@langchain/core/messages";
+import { HumanMessage, AIMessage, ToolMessage } from "@langchain/core/messages";
 import { MemorySaver } from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { createAgent } from "langchain";
 import { createChatModel } from "./model-chat.js";
 
 // ============================================================
@@ -42,9 +44,7 @@ const calculatorTool = tool(
   }
 );
 
-// 笔记存储（模块级变量）
 const noteStorage: Record<string, string> = {};
-
 const noteTool = tool(
   async ({ action, key, value }: { action: string; key: string; value?: string }): Promise<string> => {
     if (action === "save") {
@@ -84,8 +84,8 @@ async function main() {
   const memory = new MemorySaver();
 
   // 创建带记忆的 Agent
-  const agent = createReactAgent({
-    llm: model,
+  const agent = createAgent({
+    model,
     tools,
     checkpointer: memory,
   });
@@ -117,15 +117,22 @@ async function main() {
   );
   console.log("👤 用户: 我叫什么名字？我的职业是什么？");
   console.log("🤖 Agent:", (r2.messages[r2.messages.length - 1].content as string).substring(0, 200));
+
+  // 📌 在第 2 轮结束后记录 checkpoint_id，作为"书签"供 Demo 4 回溯
+  // 为什么不在 Demo 4 里盲猜？因为 Agent 使用工具时会产生额外的中间 checkpoint
+  // （tool_use → tool_result），盲猜可能落在不完整的消息序列上导致 API 报错
+  const stateAfterRound2 = await (agent as any).getState(thread1);
+  const round2CheckpointId: string = stateAfterRound2.config?.configurable?.checkpoint_id;
+  console.log(`  📌 记录第 2 轮 checkpoint: ${round2CheckpointId?.substring(0, 20)}...`);
   console.log();
 
   // 第三轮对话 — 使用工具 + 记忆
   console.log("--- 第 3 轮对话 ---");
   const r3 = await agent.invoke(
-    { messages: [new HumanMessage("帮我算算 2024 - 1995 等于多少（这是我的年龄）")] },
+    { messages: [new HumanMessage("帮我算算 2026 - 1993 等于多少（这是我的年龄）")] },
     thread1
   );
-  console.log("👤 用户: 帮我算算 2024 - 1995 等于多少（这是我的年龄）");
+  console.log("👤 用户: 帮我算算 2026 - 1993 等于多少（这是我的年龄）");
   console.log("🤖 Agent:", (r3.messages[r3.messages.length - 1].content as string).substring(0, 200));
   console.log();
 
@@ -188,7 +195,7 @@ async function main() {
   console.log("📌 Demo 3: 查看 checkpoint 状态 — getState()\n");
   console.log("💡 getState() 返回完整的状态快照，包含所有消息历史\n");
 
-  const currentState = await agent.getState(thread1);
+  const currentState = await (agent as any).getState(thread1);
 
   console.log("📊 当前状态快照:");
   console.log("  - thread_id:", thread1.configurable.thread_id);
@@ -216,7 +223,7 @@ async function main() {
   console.log("📌 Demo 4: 状态回溯 — getStateHistory()\n");
   console.log("💡 每次调用都会创建 checkpoint，可以查看历史状态并回溯（撤销）\n");
 
-  const history = agent.getStateHistory(thread1);
+  const history = (agent as any).getStateHistory(thread1);
 
   console.log("📜 Checkpoint 历史:");
   let historyCount = 0;
@@ -239,23 +246,159 @@ async function main() {
   }
 
   // 演示回溯到早期状态
-  if (checkpoints.length >= 3) {
-    const targetCheckpoint = checkpoints[checkpoints.length - 3]; // 倒数第3个
-    console.log(
-      `\n🔄 回溯到 checkpoint #${historyCount - 2}（消息数: ${targetCheckpoint.msgCount}）`
-    );
-    console.log("   （回溯后，后续的对话历史将从该点重新开始）");
+  //
+  // Demo 1 的对话轮次：
+  //   第 1 轮：我叫小明，前端工程师
+  //   第 2 轮：问名字和职业 ← 回溯到这里（round2CheckpointId）
+  //   第 3 轮：算年龄（2026-1993=33）
+  //   第 4 轮：总结所有信息
+  //
+  // 回溯到第 2 轮后，Agent 应该忘记第 3、4 轮的内容（年龄），
+  // 但仍然记得第 1、2 轮（名字、职业）。
+  //
+  // ⚠️ 为什么用 round2CheckpointId 而不是从 history 里猜"倒数第 N 个"？
+  // Agent 使用工具时会产生多个中间 checkpoint：
+  //   LLM 决定调用工具 → checkpoint（含 tool_use）
+  //   工具执行完毕 → checkpoint（含 tool_result）
+  //   LLM 生成最终回复 → checkpoint
+  // 如果回溯到 tool_use 之后、tool_result 之前的中间状态，
+  // 消息序列不完整（有 tool_use 没有 tool_result），API 会报错：
+  //   "tool_use ids were found without tool_result blocks"
+  // 所以正确做法是：在安全的时间点主动记录 checkpoint_id 作为"书签"。
 
-    // 在回溯点上继续对话
+  if (round2CheckpointId) {
+    // 用第 2 轮结束时的 checkpoint_id 构建回溯 config
     const rollbackConfig = {
       configurable: {
         thread_id: thread1.configurable.thread_id,
-        checkpoint_id: targetCheckpoint.id,
+        checkpoint_id: round2CheckpointId,
       },
     };
 
-    const rollbackState = await agent.getState(rollbackConfig);
-    console.log(`   回溯点消息数: ${rollbackState.values.messages?.length || 0}`);
+    const rollbackState = await (agent as any).getState(rollbackConfig);
+    console.log(
+      `\n🔄 回溯到第 2 轮 checkpoint（消息数: ${rollbackState.values.messages?.length || 0}，当前: ${checkpoints[0]?.msgCount || "?"}）`
+    );
+
+    // 在回溯点上继续对话 — 验证 Agent 忘记了后续轮次
+    console.log("\n--- 回溯后对话：Agent 还记得年龄吗？ ---");
+    const rollbackResult = await agent.invoke(
+      { messages: [new HumanMessage("我多大了？你知道我的年龄吗？")] },
+      rollbackConfig  // 从第 2 轮的 checkpoint 开始
+    );
+    const rollbackAnswer = rollbackResult.messages[rollbackResult.messages.length - 1].content as string;
+    console.log("👤 用户: 我多大了？你知道我的年龄吗？");
+    console.log("🤖 Agent:", rollbackAnswer.substring(0, 200));
+    console.log("   💡 预期：Agent 不知道年龄（第 3 轮的计算已被「撤销」）");
+
+    // 第二次对话：不指定 checkpoint_id，沿着回溯后产生的新分支继续
+    const continueConfig = {
+      configurable: { 
+        thread_id: thread1.configurable.thread_id,
+      },
+    };
+    console.log("\n--- 回溯后对话：Agent 还记得名字吗？ ---");
+    const rollbackResult2 = await agent.invoke(
+      { messages: [new HumanMessage("那你还记得我叫什么名字吗？")] },
+      continueConfig
+    );
+    const rollbackAnswer2 = rollbackResult2.messages[rollbackResult2.messages.length - 1].content as string;
+    console.log("👤 用户: 那你还记得我叫什么名字吗？");
+    console.log("🤖 Agent:", rollbackAnswer2.substring(0, 200));
+    console.log("   💡 预期：Agent 仍记得名字（第 1 轮在回溯点之前，未被撤销）");
+  }
+
+  // ==========================================================
+  // Demo 5: 状态导出与导入 — 跨进程迁移 Agent 状态
+  // ==========================================================
+  console.log("\n" + "=".repeat(60));
+  console.log("📌 Demo 5: 状态导出与导入 — 跨进程迁移 Agent 状态\n");
+  console.log("💡 用 getState() 导出消息历史到 JSON 文件，新建 Agent 通过 updateState() 导入\n");
+  console.log("   模拟场景：服务 A 的 Agent 对话状态迁移到服务 B 继续\n");
+
+  try {
+    // ── Step 1: 导出当前状态到 JSON 文件 ──
+    const exportState = await (agent as any).getState(thread1);
+    const messages = exportState.values.messages || [];
+
+    // 序列化消息：提取每条消息的类型和内容
+    // 实际生产中可以用 LangChain 的 Serializable 接口，这里用简化版
+    const serializedMessages = messages.map((msg: HumanMessage | AIMessage | ToolMessage) => ({
+      type: msg instanceof HumanMessage ? "human"
+        : msg instanceof AIMessage ? "ai"
+        : msg instanceof ToolMessage ? "tool" : "unknown",
+      content: msg.content,                    // 消息内容
+      tool_calls: (msg as AIMessage).tool_calls || undefined,  // AI 消息的工具调用
+      tool_call_id: (msg as ToolMessage).tool_call_id || undefined, // 工具消息的关联 ID
+    }));
+
+    const exportFile = path.resolve("data", "agent-state-export.json");
+    fs.mkdirSync(path.dirname(exportFile), { recursive: true });
+    fs.writeFileSync(exportFile, JSON.stringify({
+      thread_id: thread1.configurable.thread_id,
+      message_count: serializedMessages.length,
+      messages: serializedMessages,
+      exported_at: new Date().toISOString(),
+    }, null, 2), "utf-8");
+
+    console.log(`  💾 已导出 ${serializedMessages.length} 条消息到: ${exportFile}`);
+    console.log(`  📄 文件大小: ${fs.statSync(exportFile).size} bytes`);
+    console.log(`  ⏳ 暂停 5 秒，可以打开文件查看内容: ${exportFile}`);
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    // ── Step 2: 模拟新进程 — 创建全新的 Agent + MemorySaver ──
+    console.log("\n  🔄 模拟新进程：创建全新 Agent（空 MemorySaver）...");
+    const newMemory = new MemorySaver();
+    const newAgent = createAgent({
+      model,
+      tools,
+      checkpointer: newMemory,
+    });
+    const newThreadConfig = { configurable: { thread_id: "imported-session" } };
+
+    // ── Step 3: 从文件读取并导入状态 ──
+    const importData = JSON.parse(fs.readFileSync(exportFile, "utf-8"));
+    console.log(`  📂 从文件读取 ${importData.message_count} 条消息`);
+
+    // 反序列化消息
+    const restoredMessages = importData.messages.map(
+      (m: { type: string; content: string; tool_calls?: unknown[]; tool_call_id?: string }) => {
+        if (m.type === "human") return new HumanMessage(m.content);
+        if (m.type === "ai") {
+          const aiMsg = new AIMessage(m.content);
+          if (m.tool_calls) aiMsg.tool_calls = m.tool_calls as AIMessage["tool_calls"];
+          return aiMsg;
+        }
+        if (m.type === "tool") {
+          return new ToolMessage({ content: m.content, tool_call_id: m.tool_call_id || "" });
+        }
+        return new HumanMessage(m.content); // fallback
+      }
+    );
+
+    // 用 updateState 将消息历史写入新 Agent 的 checkpointer
+    await (newAgent as any).updateState(
+      newThreadConfig,
+      { messages: restoredMessages },
+    );
+    console.log("  ✅ 状态已导入到新 Agent");
+
+    // ── Step 4: 验证 — 新 Agent 能否继续对话 ──
+    console.log("\n--- 在新 Agent 上验证：还记得用户信息吗？ ---");
+    const verifyResult = await newAgent.invoke(
+      { messages: [new HumanMessage("你还记得我叫什么名字吗？我是做什么的？")] },
+      newThreadConfig
+    );
+    const verifyAnswer = verifyResult.messages[verifyResult.messages.length - 1].content as string;
+    console.log("👤 用户: 你还记得我叫什么名字吗？我是做什么的？");
+    console.log("🤖 新 Agent:", verifyAnswer.substring(0, 200));
+    console.log("   💡 预期：新 Agent 记得小明和前端工程师（状态成功迁移）");
+
+    // 清理
+    if (fs.existsSync(exportFile)) fs.unlinkSync(exportFile);
+    try { fs.rmdirSync(path.resolve("data")); } catch { /* 目录非空则忽略 */ }
+  } catch (error) {
+    console.log("❌ 状态导出/导入失败:", (error as Error).message);
   }
 
   console.log("\n" + "=".repeat(60));
@@ -266,6 +409,7 @@ async function main() {
   console.log("   3. getState() — 获取当前状态快照（消息历史、checkpoint_id）");
   console.log("   4. getStateHistory() — 遍历所有历史 checkpoint，支持回溯");
   console.log("   5. checkpoint_id — 指定恢复到某个历史状态，实现「撤销」");
+  console.log("   6. updateState() — 手动写入状态，配合 getState() 实现状态导出/导入");
 }
 
 const isMainModule =
