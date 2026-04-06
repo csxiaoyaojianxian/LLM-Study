@@ -1,4 +1,4 @@
-# 08-skill — Claude Code Skills 与定制体系
+# 08-skills — Claude Code Skills 与定制体系
 
 > Skills（SKILL.md）/ Hooks / Settings / CLAUDE.md 全面讲解
 
