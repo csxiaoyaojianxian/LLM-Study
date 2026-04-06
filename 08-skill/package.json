@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "skill-concepts": "tsx src/skill-concepts.ts",
     "showcase": "tsx src/showcase.ts",
     "setup": "tsx src/setup.ts",
     "hooks-demo": "tsx src/hooks-demo.ts",
