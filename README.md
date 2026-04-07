@@ -11,7 +11,7 @@
 ## 学习路线
 
 ```
-基础篇 ──────────────────────── 已完成 ✅
+基础篇 ──────────────────────── 第1期
 │ 01-Start           纯前端 HTML 示例
 │ 02-ai_chat_sdk     Next.js + Vercel AI SDK
 │
@@ -19,15 +19,15 @@
 │ 03-prompt_engineering   Prompt 工程 + 多模型适配
 │ 04-rag                  RAG 检索增强生成 ⭐
 │
-框架篇 ──────────────────────── 第4-5期
+框架篇 ──────────────────────── 第4-6期
 │ 05-langchain       LangChain.js 框架
 │ 06-agent           AI Agent 智能体 ⭐
 │
-生态篇 ──────────────────────── 第6-7期
+生态篇 ──────────────────────── 第7-8期
 │ 07-mcp             MCP 协议与服务 ⭐
-│ 08-skill           Claude Skill 开发
+│ 08-skill           Claude Code Skills 定制体系
 │
-扩展篇 ──────────────────────── 第8-9期
+扩展篇 ────────────────────────
 │ 09-multimodal      多模态应用
 │ 10-deployment      本地部署与优化
 ```
@@ -36,33 +36,33 @@
 
 ## 模块总览
 
-### 基础篇（已完成 ✅）
+### 基础篇
 
 | 模块 | 内容 | 教程 |
 | --- | --- | --- |
-| [01-Start](./01-Start/) | 纯前端 HTML 实现 AI 聊天，涵盖基础对话、流式输出、对话历史、Function Calling | [第1期教程](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) |
-| [02-ai_chat_sdk](./02-ai_chat_sdk/) | 使用 Next.js + Vercel AI SDK 构建完整聊天应用，体验框架级开发效率 | [第1期教程](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) |
+| [01-Start](./01-Start/) | 纯前端 HTML 实现 AI 聊天，涵盖基础对话、流式输出、对话历史、Function Calling | [第1期](./AI应用开发入门实践系列(第1期)—从零构建智能聊天应用.md) |
+| [02-ai_chat_sdk](./02-ai_chat_sdk/) | 使用 Next.js + Vercel AI SDK 构建完整聊天应用，体验框架级开发效率 | [第1期](./AI应用开发入门实践系列(第1期)—从零构建智能聊天应用.md) |
 
 ### 进阶篇
 
-| 模块 | 内容 | 状态 |
+| 模块 | 内容 | 教程 |
 | --- | --- | --- |
-| [03-prompt_engineering](./03-prompt_engineering/) | **Prompt 工程进阶** — System Prompt 设计模式、CoT 思维链、Few-shot 对比实验、结构化输出（JSON Mode）、多模型统一适配层封装 | ✅ |
-| [04-rag](./04-rag/) | **RAG 检索增强生成** — 文本分块策略、Embedding 向量化、向量数据库（ChromaDB）、相似度检索、完整 RAG Pipeline、对话式 RAG | ✅ |
+| [03-prompt_engineering](./03-prompt_engineering/) | **Prompt 工程进阶** — System Prompt 设计模式、CoT 思维链、Few-shot 对比实验、结构化输出（JSON Mode）、多模型统一适配层封装 | [第2期](./AI应用开发入门实践系列(第2期)—Prompt%20Engineering进阶指南.md) |
+| [04-rag](./04-rag/) | **RAG 检索增强生成** — 文本分块策略、Embedding 向量化、向量数据库（ChromaDB）、相似度检索、完整 RAG Pipeline、对话式 RAG | [第3期](./AI应用开发入门实践系列(第3期)—RAG检索增强生成实战.md) |
 
 ### 框架篇
 
-| 模块 | 内容 | 状态 |
+| 模块 | 内容 | 教程 |
 | --- | --- | --- |
-| [05-langchain](./05-langchain/) | **LangChain.js 框架** — 核心概念（Model/Prompt/Chain/Memory/Tool）、LCEL 链式调用、用 LangChain 重构 RAG、Memory 对话记忆、Output Parser、自定义 Tool | ✅ |
-| [06-agent](./06-agent/) | **AI Agent 智能体** — ReAct 模式、多工具编排（搜索/计算/文件操作）、StateGraph 自定义流程图、Multi-Agent 协作、Agent 记忆与状态管理 | ✅ |
+| [05-langchain](./05-langchain/) | **LangChain.js 框架** — 核心概念（Model/Prompt/Chain/Memory/Tool）、LCEL 链式调用、用 LangChain 重构 RAG、Memory 对话记忆、Output Parser、自定义 Tool | [第4期](./AI应用开发入门实践系列(第4期)—LangChain.js框架入门.md) |
+| [06-agent](./06-agent/) | **AI Agent 智能体** — ReAct 模式、多工具编排、StateGraph 自定义流程图、Multi-Agent 协作、Agent 记忆与状态管理 | [第5期](./AI应用开发实践系列(第5期)—AI%20Agent智能体核心原理.md) / [第6期](./AI应用开发入门实践系列(第6期)—Multi-Agent与状态管理.md) |
 
 ### 生态篇
 
-| 模块 | 内容 | 状态 |
+| 模块 | 内容 | 教程 |
 | --- | --- | --- |
-| [07-mcp](./07-mcp/) | **MCP 协议与服务** — MCP 核心概念（Resources/Tools/Prompts/Sampling）、从零实现 MCP Server（TypeScript SDK）、MCP Client 调试、在 Claude 中使用自建 Server、个人知识库 MCP Server 实战 | ✅ |
-| [08-skill](./08-skill/) | **Claude Skill 开发** — Slash Commands / Hooks / Custom Instructions、自定义 Skill（代码审查/测试生成/文档生成）、Hooks 自动化工作流、settings.json 配置详解 | ✅ |
+| [07-mcp](./07-mcp/) | **MCP 协议与服务** — MCP 核心概念（Resources/Tools/Prompts）、从零实现 MCP Server（TypeScript SDK）、MCP Client 调试、个人知识库 MCP Server 实战 | [第7期](./AI应用开发入门实践系列(第7期)—MCP协议与工具集成.md) |
+| [08-skill](./08-skill/) | **Claude Code Skills 定制体系** — Skills（SKILL.md）能力扩展系统、渐进式披露架构、Hooks 自动化工作流、Settings 权限配置、CLAUDE.md 项目记忆 | [第8期](./AI应用开发入门实践系列(第8期)—Claude%20Code%20Skills定制体系.md) |
 
 ### 扩展篇
 
@@ -80,11 +80,11 @@
 | --- | --- |
 | 语言 | TypeScript / Node.js |
 | 前端框架 | Next.js / React |
-| AI SDK | Vercel AI SDK / LangChain.js |
+| AI SDK | Vercel AI SDK / LangChain.js / LangGraph |
 | LLM 模型 | DeepSeek / OpenAI / Claude（多模型切换） |
-| 向量数据库 | ChromaDB / Qdrant |
+| 向量数据库 | ChromaDB |
 | 本地部署 | Ollama |
-| AI 生态 | MCP Protocol / Claude Skill |
+| AI 生态 | MCP Protocol / Claude Code Skills |
 | 部署 | Vercel / Docker |
 
 ---
@@ -94,10 +94,10 @@
 ### 环境要求
 
 - Node.js >= 18
-- pnpm（推荐）或 npm
+- npm
 - 至少一个 LLM API Key（DeepSeek / OpenAI / Claude）
 
-### 运行已完成的模块
+### 运行各模块
 
 **01-Start — 纯前端示例**
 
@@ -108,8 +108,8 @@
 ```bash
 cd 02-ai_chat_sdk
 cp .env.example .env.local  # 配置你的 API Key
-pnpm install
-pnpm dev
+npm install
+npm run dev
 # 访问 http://localhost:3000
 ```
 
@@ -183,11 +183,12 @@ npm run mcp-client      # 通用 Client 调试（无需 API Key）
 npm run mcp-knowledge   # 知识库问答实战
 ```
 
-**08-skill — Claude Skill 开发**
+**08-skill — Claude Code Skills 定制体系**
 
 ```bash
 cd 08-skill
 npm install
+npm run skill-concepts    # Skills 概念讲解（无需 API Key）
 npm run showcase          # 总览所有配置示例
 npm run hooks-demo        # Hook 机制详解
 npm run settings-explain  # Settings 层级详解
@@ -238,7 +239,7 @@ LLM-Study/
 ├── 05-langchain/                      ✅ LangChain.js 框架
 ├── 06-agent/                          ✅ AI Agent 智能体
 ├── 07-mcp/                            ✅ MCP 协议与服务
-├── 08-skill/                          ✅ Claude Skill 开发
+├── 08-skill/                          ✅ Claude Code Skills 定制体系
 ├── 09-multimodal/                     ✅ 多模态应用
 ├── 10-deployment/                     ✅ 本地部署与优化
 └── README.md                          📍 学习路线总览（本文件）
@@ -248,19 +249,18 @@ LLM-Study/
 
 ## 配套教程
 
-每个模块配套一篇中文教程文章，记录从原理到实现的完整过程：
+每个模块配套中文教程文章，记录从原理到实现的完整过程：
 
-| 期数 | 教程 | 状态 |
+| 期数 | 教程 | 覆盖模块 |
 | --- | --- | --- |
-| 第1期 | [前端er从零构建智能聊天应用](./AI应用开发实践系列(第1期)—前端er从零构建智能聊天应用.md) | ✅ |
-| 第2期 | Prompt 工程进阶与多模型适配 | 🔜 |
-| 第3期 | RAG 检索增强生成实战 | 🔜 |
-| 第4期 | LangChain.js 框架入门 | 🔜 |
-| 第5期 | AI Agent 智能体开发 | 🔜 |
-| 第6期 | MCP 协议与服务开发 | 🔜 |
-| 第7期 | Claude Skill 开发 | 🔜 |
-| 第8期 | 多模态应用开发 | 🔜 |
-| 第9期 | 本地部署与生产优化 | 🔜 |
+| 第1期 | [从零构建智能聊天应用](./AI应用开发实践系列(第1期)—从零构建智能聊天应用.md) | 01-Start + 02-ai_chat_sdk |
+| 第2期 | [Prompt Engineering 进阶指南](./AI应用开发实践系列(第2期)—Prompt%20Engineering进阶指南.md) | 03-prompt_engineering |
+| 第3期 | [RAG 检索增强生成实战](./AI应用开发实践系列(第3期)—RAG检索增强生成实战.md) | 04-rag |
+| 第4期 | [LangChain.js 框架入门](./AI应用开发实践系列(第4期)—LangChain.js框架入门.md) | 05-langchain |
+| 第5期 | [AI Agent 智能体核心原理](./AI应用开发实践系列(第5期)—AI%20Agent智能体核心原理.md) | 06-agent（上） |
+| 第6期 | [Multi-Agent 与状态管理](./AI应用开发实践系列(第6期)—Multi-Agent与状态管理.md) | 06-agent（下） |
+| 第7期 | [MCP 协议与工具集成](./AI应用开发实践系列(第7期)—MCP协议与工具集成.md) | 07-mcp |
+| 第8期 | [Claude Code Skills 定制体系](./AI应用开发实践系列(第8期)—Claude%20Code%20Skills定制体系.md) | 08-skill |
 
 ---
 
