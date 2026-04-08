@@ -24,7 +24,7 @@ const DEFAULT_MODELS: Record<Provider, string> = {
   deepseek: "deepseek-chat",
   openai: "gpt-4o-mini",
   anthropic: "claude-3-5-haiku-latest",
-  ollama: "qwen2.5:0.5b",
+  ollama: "qwen3.5:9b",
 };
 
 /** Ollama 默认地址 */

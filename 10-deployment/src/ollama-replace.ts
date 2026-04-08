@@ -203,7 +203,7 @@ async function main(): Promise<void> {
 
   if (!ollamaOk) {
     console.log("⚠️  Ollama 未启动，部分 Demo 将跳过");
-    console.log("💡 请启动 Ollama 并拉取模型: ollama pull qwen2.5:0.5b\n");
+    console.log("💡 请启动 Ollama 并拉取模型: ollama pull qwen3.5:9b\n");
   }
   if (!cloudOk) {
     console.log("⚠️  未配置云端 API Key，部分 Demo 将跳过\n");

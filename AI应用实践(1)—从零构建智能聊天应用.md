@@ -1,20 +1,26 @@
-# AI应用开发入门实践系列(第1期)—从零构建智能聊天应用
+# AI应用实践(1)—从零构建智能聊天应用
 
-本系列聚焦 AI 应用开发的实战技能。本期从零构建一个功能完整的 AI 聊天应用，支持流式输出、多轮对话和 Function Calling（工具调用），最终部署为可访问的线上服务。
+很多 AI 入门文章的问题，不是原理讲错了，而是示例代码依赖的 SDK、接口和脚手架版本已经变了。读者照着写，往往先踩一轮版本坑。
+
+这套 8 篇教程尽量基于当前还能跑通的技术栈来写，按“聊天应用 → Prompt Engineering → RAG → LangChain → Agent → MCP → Skills”的顺序，把 AI 应用开发里最常见的一条入门路径串起来。目标不是追求绝对最新，而是尽量帮你少踩坑、先把链路跑通。
+
+📚 本系列文章一共8篇，如下：
+
+| 序号 | 主题 | 核心内容 |
+| :-------: | ------------------------------- | ----------------------------------------- |
+| 1 | 从零构建智能聊天应用 | HTML + API + AI SDK + Function Calling |
+| 2 | Prompt Engineering进阶指南 | 多模型适配 + Prompt 模板 + 结构化输出 + 思维链 |
+| 3 | RAG 检索增强生成实战 | 分块 + 向量化 + 检索 + 对话式 RAG |
+| 4 | LangChain.js框架入门 | LCEL + Output Parser + Memory + Tool + RAG |
+| 5 | AI Agent智能体核心原理 | ReAct + 工具编排 + StateGraph |
+| 6 | Multi-Agent与状态管理 | Agent 记忆 + 状态管理 + Multi-Agent 协作 |
+| 7 | MCP协议与工具集成 | MCP + Tools + Resources + Prompts + Server/Client |
+| 8 | Claude Code Skills 定制体系 | Skills + Hooks + Settings + CLAUDE.md |
+
+本篇先从最基础的聊天应用开始，分别用原生 HTML 和 Next.js + AI SDK 实现一个支持流式输出、多轮对话和 Function Calling 的可运行 Demo。
+
 技术栈：Next.js + AI SDK + DeepSeek API + Vercel
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
-
-> 📚 **系列导航（共8期）**
->
-> 1. **从零构建智能聊天应用** 👈 本期
-> 2. Prompt Engineering 进阶指南
-> 3. RAG 检索增强生成
-> 4. AI Agent 智能体开发
-> 5. 多模态应用开发
-> 6. 模型微调与部署
-> 7. AI 应用测试与评估
-> 8. 生产级 AI 应用架构
->
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、前置知识：走进大模型的世界
 
@@ -656,19 +662,3 @@ $ vercel --prod
 - [01-Start（纯前端HTML示例）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/01-Start)
 - [02-ai_chat_sdk（Next.js + AI SDK）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/02-ai_chat_sdk)
 
-
-
-## 七、下期预告
-
-本期我们从零搭建了一个完整的 AI 聊天应用，掌握了 API 调用、流式输出、多轮对话和 Function Calling 的核心能力。
-
-**下一期：Prompt Engineering — 与AI高效沟通的艺术**
-
-本期只是浅尝了 Prompt 的概念，下一期我们将深入 Prompt Engineering 的实战技巧，包括：
-
-- **多模型适配器**：一套代码同时对接 DeepSeek / OpenAI / Anthropic，自由切换
-- **Prompt 模板引擎**：用变量和模板批量生成高质量 Prompt，告别手动拼字符串
-- **结构化输出**：用 Zod Schema 让 AI 返回严格的 JSON，直接喂给业务逻辑
-- **思维链（Chain-of-Thought）**：让 AI "先思考再回答"，大幅提升复杂推理能力
-
-从"能用"到"好用"，Prompt 才是决定 AI 应用质量的关键——敬请期待！

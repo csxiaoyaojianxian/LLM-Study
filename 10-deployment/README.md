@@ -21,11 +21,17 @@ npm install
 # Linux: curl -fsSL https://ollama.com/install.sh | sh
 
 # 2. 拉取测试模型
-ollama pull qwen2.5:0.5b
+ollama pull qwen3.5:9b
 
 # 3. 验证
 ollama list
 ```
+
+## canirun.ai
+
+ 看看本地能跑什么模型
+
+[www.canirun.ai](https://www.canirun.ai/)
 
 ## 运行 Demo
 
@@ -83,7 +89,7 @@ npm run monitoring        # 监控与日志（纯逻辑，无需 API Key）
 import { getModel } from './model-adapter.js';
 
 // 使用 Ollama 本地模型
-const model = getModel('ollama', 'qwen2.5:0.5b');
+const model = getModel('ollama', 'qwen3.5:9b');
 
 // Ollama 通过 OpenAI 兼容 API 接入
 // createOpenAI({ baseURL: 'http://localhost:11434/v1', apiKey: 'ollama' })

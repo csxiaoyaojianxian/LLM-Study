@@ -1,19 +1,11 @@
-# AI应用开发实践系列(第2期)—Prompt Engineering进阶指南
+# AI应用实践(2)—Prompt Engineering进阶指南
 
-本系列聚焦 AI 应用开发的实战技能。上一期我们从零构建了一个智能聊天应用，用到了简单的 System Prompt 来设定 AI 的角色。但在真实项目中，Prompt 远不止"写一段话"这么简单——你需要支持多个模型切换、管理大量模板、还要保证 AI 输出的格式可控。本期将带你从"会写 Prompt"升级到"工程化管理 Prompt"。
+上一期我们先把聊天应用跑了起来，这一篇开始解决另一个更实际的问题：怎么把 Prompt 从“写几句话”变成“能维护、能复用、能约束输出”的工程能力。
+
+这篇不会停留在提示词技巧层面，而是直接落到代码实现上，分别处理多模型切换、Prompt 模板、结构化输出和思维链这几个最常见的问题。
+
 技术栈：TypeScript + Vercel AI SDK + Zod + DeepSeek/OpenAI/Anthropic
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering)
-
-> 📚 **系列导航（共8期）**
->
-> 1. [从零构建智能聊天应用](./AI应用开发实践系列(第1期)—从零构建智能聊天应用.md) ✅
-> 2. **Prompt Engineering 进阶指南** ← 本期
-> 3. RAG 检索增强生成
-> 4. AI Agent 智能体开发
-> 5. 多模态应用开发
-> 6. 模型微调与部署
-> 7. AI 应用测试与评估
-> 8. 生产级 AI 应用架构
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、为什么需要 Prompt Engineering
 
@@ -1045,20 +1037,6 @@ const { object } = await generateObject({
   messages,                               // 模板生成的消息
 });
 ```
-
-### 6.2 下期预告：RAG 检索增强生成
-
-到目前为止，我们的 AI 应用有一个根本性的局限——**它只知道训练数据中的知识**。如果你想让 AI 回答"公司内部的 HR 政策"或"产品最新的 API 文档"，它只能说"我不知道"，甚至更糟——它会"编"一个看起来正确但实际错误的答案（幻觉问题）。
-
-下一期我们将学习 **RAG（Retrieval-Augmented Generation，检索增强生成）**——让 AI 在回答前先从知识库中检索相关文档，然后基于真实资料生成答案。核心内容包括：
-
-- 📦 文本分块策略（固定大小、递归字符、段落分割）
-- 🔢 文本向量化（Embedding）与本地模型（无需 API Key）
-- 🗄️ 向量数据库（ChromaDB）
-- 🔗 完整 RAG 流水线：分块 → 向量化 → 检索 → 生成
-- 💬 多轮对话 RAG（代词消解 + 问题改写）
-
-敬请期待！
 
 **官方文档推荐：**
 - [Vercel AI SDK — generateObject](https://sdk.vercel.ai/docs/ai-sdk-core/generating-structured-data)

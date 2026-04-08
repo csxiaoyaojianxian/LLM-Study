@@ -29,7 +29,7 @@ const PRICING_TABLE: ModelPricing[] = [
   { name: "gpt-4-turbo", provider: "openai", inputPer1M: 10.00, outputPer1M: 30.00 },
   { name: "claude-3-5-haiku-latest", provider: "anthropic", inputPer1M: 0.80, outputPer1M: 4.00 },
   { name: "claude-3-5-sonnet-latest", provider: "anthropic", inputPer1M: 3.00, outputPer1M: 15.00 },
-  { name: "qwen2.5:0.5b (Ollama)", provider: "ollama", inputPer1M: 0, outputPer1M: 0 },
+  { name: "qwen3.5:9b (Ollama)", provider: "ollama", inputPer1M: 0, outputPer1M: 0 },
 ];
 
 /** 计算成本 */

@@ -1,21 +1,11 @@
-# AI应用开发实践系列(第8期)—Claude Code Skills定制体系
+# AI应用实践(8)—Claude Code Skills定制体系
 
-本系列面向传统web应用开发者，聚焦AI应用开发的实战技能。
-本期是系列终篇，我们跳出"调用AI"的视角，转而聚焦"定制AI"——讲解如何通过 Skills / Hooks / Settings / CLAUDE.md 四大机制，将 Claude Code 从通用编码助手打造成你的专属 AI 开发伙伴。
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill)
+前面的 1 到 7 篇，基本都在讲“如何调用 AI 能力”。最后这一篇换个角度，不再只关注模型调用，而是讨论怎么把一个通用的 AI 编码助手定制成真正懂项目、懂流程、懂约束的开发伙伴。
 
-> 📚 **系列导航**（共8期）
->
-> | 期数 | 主题 | 核心内容 |
-> | --- | --- | --- |
-> | 第1期 | 从零构建智能聊天应用 | HTML + API + AI SDK + Function Calling |
-> | 第2期 | Prompt Engineering | 提示词模板 + 结构化输出 + 思维链 |
-> | 第3期 | RAG 检索增强生成 | 分块 + 向量化 + 检索 + 多轮对话 |
-> | 第4期 | Agent 智能体 | ReAct + 工具调用 + 规划与执行 |
-> | 第5期 | MCP 协议 | 模型上下文协议 + 工具服务化 |
-> | 第6期 | LangChain 应用框架 | Chain + Memory + Agent + RAG 集成 |
-> | 第7期 | 模型微调与部署 | LoRA + 量化 + 推理优化 |
-> | **第8期** | **Claude Code Skills 定制体系** | **Skills + Hooks + Settings + CLAUDE.md** |
+这里会围绕 Claude Code 的四个核心机制展开：`CLAUDE.md`、Skills、Hooks 和 Settings。重点不是功能罗列，而是这些机制怎样组合起来，形成一套可复用的团队协作方式。
+
+技术栈：Claude Code + Skills + Hooks + Settings + CLAUDE.md
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、从 Copilot 到个人专家
 

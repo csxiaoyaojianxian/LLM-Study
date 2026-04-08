@@ -1,11 +1,11 @@
-# AI应用开发实践系列(第3期)—RAG检索增强生成实战
+# AI应用实践(3)—RAG检索增强生成实战
 
-本期我们从零实现一个完整的 RAG（Retrieval-Augmented Generation）系统：文本切分 → 向量化 → 存储 → 检索 → 生成 → 多轮对话。不依赖 LangChain 等框架，纯手写每个环节，彻底搞懂 RAG 的原理。
+前两篇解决了模型调用和 Prompt 管理的问题，但模型的知识边界并没有变。想让 AI 回答最新文档、私有资料和业务知识，RAG 基本是绕不过去的一层。
 
-**技术栈**：TypeScript + @xenova/transformers + ChromaDB + Vercel AI SDK
-**源码**：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag)
+这篇不依赖 LangChain 等框架，直接手写一个完整的 RAG 系统：文本切分 → 向量化 → 存储 → 检索 → 生成 → 多轮对话。重点不是“调通一个库”，而是把每个环节为什么这样设计讲清楚。
 
-
+技术栈：TypeScript + @xenova/transformers + ChromaDB + Vercel AI SDK
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、为什么需要 RAG
 
@@ -886,10 +886,6 @@ docker run -d -p 8000:8000 chromadb/chroma    # 启动 ChromaDB
 npm run rag-pipeline        # 完整 RAG Pipeline + 纯 LLM 对比
 npm run conversational-rag  # 多轮对话 + 问题改写
 ```
-
-### 7.3 下期预告
-
-本期我们手写了 RAG 的每个环节，对底层原理有了清晰的认知。但在实际项目中，手写所有管道代码效率不高。**下期（第4期）我们将引入 LangChain 框架**，用框架的标准组件重新实现 RAG，体验框架带来的开发效率提升，同时对比"手写 vs 框架"的优劣。
 
 **官方文档**：
 - [ChromaDB](https://docs.trychroma.com/)

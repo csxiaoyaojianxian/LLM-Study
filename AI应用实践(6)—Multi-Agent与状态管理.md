@@ -1,22 +1,13 @@
-# AI应用开发实践系列(第6期)—Multi-Agent与状态管理
+# AI应用实践(6)—Multi-Agent与状态管理
 
-本系列面向传统web应用开发者，聚焦AI应用开发的实战技能。
-本期聚焦两个核心主题：**Agent 的记忆与状态管理**、**Multi-Agent 多智能体协作**——让 Agent 拥有"记忆力"，并学会"团队协作"。
+上一期解决了 Agent 如何思考和调用工具，这一篇继续补上两个更接近真实生产的问题：记忆和协作。
+
+没有状态管理，Agent 每次运行都像失忆；没有角色拆分，复杂任务很快就会变成一个巨大而脆弱的提示词。这里我们重点看 Agent 的记忆体系、状态回溯，以及 Multi-Agent 的几种协作方式。
+
 技术栈：LangChain v1 + LangGraph + OpenAI/DeepSeek + TypeScript
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
-> 📚 **系列导航（共8期）**
->
-> 1. [从零构建智能聊天应用](./AI应用开发实践系列(第1期)—从零构建智能聊天应用.md) — Chat API + 流式输出 + Function Calling
-> 2. [Prompt工程与模型适配](./AI应用开发实践系列(第2期)—Prompt工程与模型适配.md) — 多Provider适配 + Prompt模板 + 结构化输出
-> 3. [RAG检索增强生成(上)](./AI应用开发实践系列(第3期)—RAG检索增强生成(上).md) — 文本分块 + Embedding + 向量数据库
-> 4. [RAG检索增强生成(下)](./AI应用开发实践系列(第4期)—RAG检索增强生成(下).md) — RAG Pipeline + 多轮对话RAG
-> 5. [Agent智能体原理与工具编排](./AI应用开发实践系列(第5期)—Agent智能体原理与工具编排.md) — ReAct模式 + StateGraph + Human-in-the-Loop
-> 6. **Multi-Agent与状态管理** ← 本期
-> 7. MCP协议与标准化工具集成（即将发布）
-> 8. AI应用架构总结与展望（即将发布）
 
-上一期我们学会了构建单个 Agent（ReAct 模式、工具编排、StateGraph 流程图），但一个 Agent 跑完就"失忆"，多个 Agent 也无法协同。本期解决这两个问题。
 
 **本期内容概览：**
 
@@ -882,7 +873,7 @@ npm run multi-agent
 
 
 
-## 六、总结与下期预告
+## 六、总结
 
 ### Agent 体系完整回顾（第 5 + 6 期）
 
@@ -903,14 +894,6 @@ npm run multi-agent
 第 6 期: Agent + 记忆 → 能记住上下文
          Agent + Agent → 能团队协作
 ```
-
-### 下期预告：MCP 协议
-
-本期的 Agent 工具都是我们自己定义的（搜索、计算器、笔记...），每接入一个新工具就要写一遍 `tool()` 定义。如果有一个**标准协议**，让所有工具提供商按统一格式发布工具，Agent 开箱即用，那该多好？
-
-这就是 **MCP（Model Context Protocol）** 要解决的问题——标准化 Agent 的工具集成方式。
-
-**第 7 期：MCP 协议——让 Agent 接入万千工具的标准化之路。**
 
 完整源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
 

@@ -1,20 +1,11 @@
-# AI应用开发实践系列(第5期)—AI Agent智能体核心原理
+# AI应用实践(5)—AI Agent智能体核心原理
 
-本系列面向传统 Web 应用开发者，聚焦 AI 应用开发的实战技能。
-本期深入 AI Agent（智能体）的核心原理：从手动实现 ReAct 循环到多工具编排，再到用 StateGraph 自定义任意复杂流程图，带你理解 Agent 的本质 —— **LLM + Tools + 决策循环**。
+前面几篇我们已经让模型学会了聊天、结构化输出、访问知识库和调用工具，但整体流程仍然是业务代码写死的。Agent 的核心变化，是把“下一步做什么”这件事部分交给模型自己决定。
+
+这篇聚焦 AI Agent 的三个关键层次：ReAct 决策循环、多工具编排，以及用 StateGraph 组织复杂流程。目标不是只会调一个现成 Agent，而是理解 Agent 这套机制为什么能工作。
+
 技术栈：LangChain v1 + LangGraph + TypeScript + Zod
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
-
-> 📚 **系列导航（共8期）**
->
-> 1. [从零构建智能聊天应用](./AI应用开发实践系列(第1期)—从零构建智能聊天应用.md) — HTML + AI SDK + Function Calling + Vercel 部署
-> 2. [Prompt Engineering 进阶指南](./AI应用开发实践系列(第2期)—Prompt%20Engineering进阶指南.md) — 模型适配、提示词模板、结构化输出、思维链
-> 3. [RAG 检索增强生成实战](./AI应用开发实践系列(第3期)—RAG检索增强生成实战.md) — 文本分块、向量嵌入、检索管线、多轮对话 RAG
-> 4. [LangChain.js 框架入门](./AI应用开发实践系列(第4期)—LangChain.js框架入门.md) — Model / Prompt / Chain / Memory / Tool
-> 5. **👉 AI Agent 智能体核心原理（本期）** — ReAct 模式、工具进阶、StateGraph
-> 6. [Agent 记忆与 Multi-Agent 协作](./AI应用开发实践系列(第6期)—Multi-Agent与状态管理.md) — MemorySaver、状态回溯、多智能体
-> 7. [MCP 协议与工具集成](./AI应用开发实践系列(第7期)—MCP协议与工具集成.md) — Model Context Protocol 统一工具接入
-> 8. [Claude Code Skills 定制体系](./AI应用开发实践系列(第8期)—Claude%20Code%20Skills定制体系.md) — 自定义 Slash Command 与工程化实践
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、什么是 AI Agent
 
@@ -1052,13 +1043,6 @@ StateGraph 四种模式
 ├── 循环改进 ─────── A → B → [不满意] → A（循环）
 └── Human-in-the-Loop ── interrupt + Command 暂停/恢复
 ```
-
-### 下期预告
-
-本期介绍了 Agent 的核心引擎，但 Agent 还缺少一个关键能力——**记忆**。下一期我们将探索：
-
-- 🧠 **Agent 记忆体系** — MemorySaver、thread_id、checkpoint 回溯、状态导出/导入
-- 🤝 **Multi-Agent 协作** — 多个 Agent 分工合作：顺序流水线、条件路由、Supervisor 动态分派、辩论协作
 
 ### 运行本期 Demo
 

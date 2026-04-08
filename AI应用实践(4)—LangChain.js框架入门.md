@@ -1,8 +1,11 @@
-# AI应用开发实践系列(第4期)—LangChain.js框架入门
+# AI应用实践(4)—LangChain.js框架入门
 
-本期目标：用 LangChain.js 框架重新实现前几期手写的功能（模型调用、Prompt 管理、结构化输出、对话记忆、工具调用、RAG Pipeline），体验框架级开发效率。
+前几篇我们刻意手写了模型调用、Prompt、结构化输出和 RAG。这样做的好处是原理足够清楚，坏处是样板代码很多，功能一复杂就容易重复劳动。
+
+这篇开始引入 LangChain.js，用框架化方式重组前面已经实现过的能力。重点不是记 API，而是看它到底替你省掉了哪些重复工作，以及什么时候该用、什么时候不该用。
+
 技术栈：LangChain.js v1（langchain@1.3 / @langchain/core@1.1 / @langchain/langgraph@1.2）+ TypeScript + ChromaDB + Zod
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/05-langchain](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/05-langchain)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、为什么需要 LangChain
 
@@ -1162,7 +1165,3 @@ LangChain 发展迅速，网上很多教程基于 v0.1/v0.2 版本，代码在 v
 | 调用方式 | `.predict()` / `.call()` | 统一使用 `.invoke()` |
 
 旧类如 `ConversationChain`、`LLMChain`、`BufferMemory` 已移至 `@langchain/classic`（不推荐使用）。
-
-### 8.5 下期预告
-
-第5期我们将深入 **AI Agent 智能体**——让 AI 不只是"回答问题"，而是"自主完成任务"。Agent 不仅仅是调用单个工具，而是能够自主规划、分步执行、处理复杂任务的"AI大脑"。我们将用 LangGraph StateGraph 构建复杂的多步决策流程，包括状态图、条件分支、人机协作等高级模式。敬请期待！

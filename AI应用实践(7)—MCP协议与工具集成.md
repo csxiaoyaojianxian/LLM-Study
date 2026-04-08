@@ -1,20 +1,11 @@
-# AI应用开发实践系列(第7期)—MCP协议与工具集成
+# AI应用实践(7)—MCP协议与工具集成
 
-本系列面向传统web应用开发者，聚焦AI应用开发的实战技能。
-本期带你从零理解和实现 MCP（Model Context Protocol）——AI 工具生态的"USB 接口"，让你的 AI 应用即插即用地连接任何外部能力。
+前面的工具调用和 Agent 示例，默认前提都是“每接一个工具，就自己写一套接入代码”。Demo 阶段没问题，但工具一多、宿主一多，维护成本会迅速失控。
+
+这篇聚焦 MCP（Model Context Protocol）怎么把工具接入这件事标准化。我们会从协议角色、通信方式讲起，再手写 Tools、Resources、Prompts 和一个可运行的 Server/Client 示例。
+
 技术栈：TypeScript / Node.js / MCP SDK / Vercel AI SDK
-源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
-
-> 📚 **系列导航（共8期）**
->
-> [第1期 — 从零构建智能聊天应用](./AI应用开发实践系列(第1期)—从零构建智能聊天应用.md)
-> [第2期 — Prompt工程与模板化](./AI应用开发实践系列(第2期)—Prompt工程与模板化.md)
-> [第3期 — RAG检索增强生成](./AI应用开发实践系列(第3期)—RAG检索增强生成.md)
-> [第4期 — LangChain应用框架](./AI应用开发实践系列(第4期)—LangChain应用框架.md)
-> [第5期 — AI Agent智能体](./AI应用开发实践系列(第5期)—AI Agent智能体.md)
-> [第6期 — 多模态与语音交互](./AI应用开发实践系列(第6期)—多模态与语音交互.md)
-> **第7期 — MCP协议与工具集成** 👈 当前
-> [第8期 — Claude Code Skills定制体系](./AI应用开发实践系列(第8期)—Claude%20Code%20Skills定制体系.md)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
 
 ## 一、MCP 是什么
 
@@ -971,12 +962,6 @@ MCP 用一个统一的"USB 接口"标准解决了 AI 工具集成的碎片化问
 ├── mcp-client.ts               ← 通用调试工具
 └── mcp-knowledge.ts            ← 知识库问答实战
 ```
-
-### 下期预告
-
-**第8期 — Claude Code Skills 定制体系**
-
-如果说 MCP 是给 AI 工具的"USB 接口"，那 Skills 就是给 Claude Code 的"快捷方式"。下期我们将学习如何通过 Skill 机制定制 Claude Code 的行为模式——用 Markdown 文件定义可复用的工作流，让 AI 编码助手更懂你的项目。
 
 **官方文档：**
 - [MCP 官方文档](https://modelcontextprotocol.io)

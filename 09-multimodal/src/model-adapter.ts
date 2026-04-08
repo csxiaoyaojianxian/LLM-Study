@@ -22,7 +22,7 @@ export type Provider = "deepseek" | "openai" | "anthropic";
 /** 各 provider 的默认模型 */
 const DEFAULT_MODELS: Record<Provider, string> = {
   deepseek: "deepseek-chat",
-  openai: "gpt-4o-mini",
+  openai: "claude-4-6-opus",
   anthropic: "claude-3-5-haiku-latest",
 };
 
@@ -49,12 +49,16 @@ export function getModel(provider: Provider, modelName?: string): LanguageModel 
     case "openai": {
       const openai = createOpenAI({
         apiKey: process.env.OPENAI_API_KEY,
+        baseURL: process.env.OPENAI_API_BASE_URL,
+        compatibility: "compatible", // 兼容代理
       });
-      return openai(model);
+      // 使用 .chat() 走 /v1/chat/completions，而非默认的 /v1/responses
+      return openai.chat(model);
     }
     case "anthropic": {
       const anthropic = createAnthropic({
         apiKey: process.env.ANTHROPIC_API_KEY,
+        baseURL: process.env.ANTHROPIC_API_BASE_URL,
       });
       return anthropic(model);
     }
@@ -67,6 +71,8 @@ export function getModel(provider: Provider, modelName?: string): LanguageModel 
 export function getOpenAIProvider() {
   return createOpenAI({
     apiKey: process.env.OPENAI_API_KEY,
+    baseURL: process.env.OPENAI_API_BASE_URL,
+    compatibility: "compatible",
   });
 }
 

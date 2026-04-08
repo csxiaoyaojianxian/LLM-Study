@@ -4,7 +4,7 @@
  * 演示如何使用 Ollama 在本地运行开源 LLM，通过 AI SDK 接入。
  *
  * 运行: npm run ollama-basics
- * 需要: 本地安装并启动 Ollama，拉取模型 `ollama pull qwen2.5:0.5b`
+ * 需要: 本地安装并启动 Ollama，拉取模型 `ollama pull qwen3.5:9b`
  */
 
 import "dotenv/config";
@@ -57,7 +57,7 @@ function demo1_concepts(): void {
   console.log("  ┌───────────────────┬──────────┬──────────────────┐");
   console.log("  │ 模型              │ 大小      │ 适合场景          │");
   console.log("  ├───────────────────┼──────────┼──────────────────┤");
-  console.log("  │ qwen2.5:0.5b     │ ~400MB   │ 测试、学习        │");
+  console.log("  │ qwen3.5:9b     │ ~400MB   │ 测试、学习        │");
   console.log("  │ qwen2.5:1.5b     │ ~1GB     │ 轻量任务          │");
   console.log("  │ qwen2.5:7b       │ ~4.5GB   │ 通用对话          │");
   console.log("  │ llama3.2:3b      │ ~2GB     │ 英文通用          │");
@@ -67,8 +67,8 @@ function demo1_concepts(): void {
 
   console.log("🛠️  快速开始：");
   console.log("  1. 安装: https://ollama.com/download");
-  console.log("  2. 拉取: ollama pull qwen2.5:0.5b");
-  console.log("  3. 测试: ollama run qwen2.5:0.5b");
+  console.log("  2. 拉取: ollama pull qwen3.5:9b");
+  console.log("  3. 测试: ollama run qwen3.5:9b");
   console.log("  4. 代码接入: 使用 AI SDK + OpenAI 兼容模式\n");
 
   console.log("🔗 AI SDK 接入代码：");
@@ -77,7 +77,7 @@ function demo1_concepts(): void {
     baseURL: 'http://localhost:11434/v1',
     apiKey: 'ollama',  // 占位符，Ollama 不校验
   });
-  const model = ollama('qwen2.5:0.5b');`);
+  const model = ollama('qwen3.5:9b');`);
   console.log("");
 }
 
@@ -105,7 +105,7 @@ async function demo2_connectionCheck(): Promise<boolean> {
   const models = await getOllamaModels();
   if (models.length === 0) {
     console.log("⚠️  未找到已安装的模型！");
-    console.log("💡 请运行: ollama pull qwen2.5:0.5b\n");
+    console.log("💡 请运行: ollama pull qwen3.5:9b\n");
     return false;
   }
 

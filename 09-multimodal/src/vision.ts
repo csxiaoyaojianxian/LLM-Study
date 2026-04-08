@@ -168,7 +168,7 @@ async function demo3_urlImage(): Promise<void> {
   console.log(`📦 使用模型: ${provider} / ${modelName}`);
 
   // 使用一个公开的免费图片 URL
-  const imageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/280px-PNG_transparency_demonstration_1.png";
+  const imageUrl = "https://csxiaoyao.com/assets/img/logo.742960cd.png";
   console.log(`🌐 图片 URL: ${imageUrl}`);
   console.log("📤 发送 URL 给 LLM 分析...\n");
 
