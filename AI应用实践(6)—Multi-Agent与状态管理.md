@@ -4,12 +4,12 @@
 
 没有状态管理，Agent 每次运行都像失忆；没有角色拆分，复杂任务很快就会变成一个巨大而脆弱的提示词。这里我们重点看 Agent 的记忆体系、状态回溯，以及 Multi-Agent 的几种协作方式。
 
-技术栈：LangChain v1 + LangGraph + OpenAI/DeepSeek + TypeScript
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+技术栈：LangChain v1 + LangGraph + OpenAI / DeepSeek + TypeScript
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
 
 
 
-**本期内容概览：**
+## 本文内容
 
 - 🧠 Agent 记忆体系：MemorySaver + thread_id + checkpoint 状态回溯
 - 💾 状态导出与导入：跨进程迁移 Agent 状态
@@ -21,7 +21,7 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.
 
 ### 1.1 回顾：LLM 是无状态的
 
-在第 1 期中我们就提过：**大模型本身不记事**。每次 API 调用都是全新的，模型不知道你 10 秒前问过什么。要实现多轮对话，靠的是应用层把历史消息拼接到请求里。
+在系列第一篇里我们就提过：**大模型本身不记事**。每次 API 调用都是全新的，模型不知道你 10 秒前问过什么。要实现多轮对话，靠的是应用层把历史消息拼接到请求里。
 
 对于简单聊天应用，一个 `history[]` 数组就够了。但 Agent 不一样。
 
@@ -879,7 +879,7 @@ npm run multi-agent
 
 经过两期的学习，我们已经构建了完整的 Agent 知识体系：
 
-| 第 5 期 | 第 6 期 |
+| 上一篇 | 本篇 |
 | --- | --- |
 | ReAct 模式（Agent 核心原理） | MemorySaver（Agent 记忆） |
 | 工具进阶（多工具编排、错误处理） | Checkpoint（状态快照与回溯） |
@@ -889,13 +889,27 @@ npm run multi-agent
 从"一个能调工具的 LLM"到"多个 Agent 组成的团队"，Agent 的能力在不断升级：
 
 ```
-第 1 期: LLM 只能聊天
-第 5 期: Agent = LLM + 工具 + 决策循环 → 能执行任务
-第 6 期: Agent + 记忆 → 能记住上下文
+系列起点: LLM 只能聊天
+上一篇: Agent = LLM + 工具 + 决策循环 → 能执行任务
+本篇: Agent + 记忆 → 能记住上下文
          Agent + Agent → 能团队协作
 ```
 
-完整源代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
+**相关代码：**
+- [06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
+
+## 七、运行示例
+
+```bash
+cd 06-agent
+cp .env.example .env  # 配置至少一个 API Key
+npm install
+
+npm run memory-agent  # Agent 记忆、checkpoint 与状态回溯
+npm run multi-agent   # 多智能体协作模式
+```
+
+## 八、参考资料
 
 **官方文档：**
 - [LangGraph 文档](https://langchain-ai.github.io/langgraphjs/)

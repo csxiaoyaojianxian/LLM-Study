@@ -5,7 +5,7 @@
 这里会围绕 Claude Code 的四个核心机制展开：`CLAUDE.md`、Skills、Hooks 和 Settings。重点不是功能罗列，而是这些机制怎样组合起来，形成一套可复用的团队协作方式。
 
 技术栈：Claude Code + Skills + Hooks + Settings + CLAUDE.md
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill)
 
 ## 一、从 Copilot 到个人专家
 
@@ -674,71 +674,17 @@ npm run migrate   # 数据库迁移
 
 四大机制各司其职，无缝协作。
 
-## 七、系列总结
-
-### 7.1 八期完整学习路线回顾
-
-回顾整个系列，我们走过了一条从"调用AI"到"定制AI"的完整路径：
-
-```
-第1期  ┌─────────────────────┐  从零开始
-       │ HTML + API + AI SDK │  → 学会调用大模型 API
-       │ Function Calling    │  → 让 AI 拥有"双手"
-       └─────────┬───────────┘
-                 ▼
-第2期  ┌─────────────────────┐  提升质量
-       │ Prompt Engineering  │  → 结构化提示词
-       │ 思维链 + 结构化输出  │  → 让 AI 输出可控
-       └─────────┬───────────┘
-                 ▼
-第3期  ┌─────────────────────┐  扩展知识
-       │ RAG 检索增强生成     │  → 分块 + 向量化 + 检索
-       │ 多轮对话 RAG        │  → 让 AI 拥有"记忆"
-       └─────────┬───────────┘
-                 ▼
-第4期  ┌─────────────────────┐  自主行动
-       │ Agent 智能体        │  → ReAct 循环
-       │ 工具调用 + 规划     │  → 让 AI 自主决策
-       └─────────┬───────────┘
-                 ▼
-第5期  ┌─────────────────────┐  标准化
-       │ MCP 协议            │  → 模型上下文协议
-       │ 工具服务化          │  → 统一的工具接入标准
-       └─────────┬───────────┘
-                 ▼
-第6期  ┌─────────────────────┐  工程化
-       │ LangChain 框架      │  → Chain + Memory + Agent
-       │ RAG 集成            │  → 一站式开发框架
-       └─────────┬───────────┘
-                 ▼
-第7期  ┌─────────────────────┐  底层优化
-       │ 模型微调与部署      │  → LoRA + 量化
-       │ 推理优化            │  → 性能与成本平衡
-       └─────────┬───────────┘
-                 ▼
-第8期  ┌─────────────────────┐  个性定制
-       │ Claude Code Skills  │  → Skills + Hooks
-       │ 定制体系            │  → Settings + CLAUDE.md
-       └─────────────────────┘  → 打造专属 AI 伙伴
-```
-
-### 7.2 从 HTML 聊天到定制 AI 伙伴
-
-第1期，我们用一个简单的 `fetch` 调用实现了和 AI 的对话；到第8期，我们已经能定制 AI 的能力、行为、权限和自动化流程。
-
-这个进化路径反映了 AI 应用开发的核心趋势：**AI 正在从"工具"变成"伙伴"，而定制化是这个转变的关键。**
-
-### 7.3 推荐资源
+## 七、参考资料
 
 **官方文档：**
 - [Claude Code 官方文档](https://docs.anthropic.com/en/docs/claude-code)
 - [Agent Skills 开放标准](https://agentskills.io)
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
 
-**本系列源码：**
-- [LLM-Study GitHub 仓库](https://github.com/csxiaoyaojianxian/LLM-Study)
+**相关代码：**
+- [08-skill](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill)
 
-**运行本期 Demo：**
+## 八、运行示例
 
 ```bash
 cd 08-skill
@@ -759,7 +705,3 @@ npm run settings-explain
 # 一键安装示例到 .claude/ 目录
 npm run setup
 ```
-
----
-
-> 🎉 **系列完结！** 从第1期的 HTML 聊天到第8期的 Skills 定制，希望这个系列帮你建立了 AI 应用开发的完整知识体系。AI 开发的世界还在快速演进，保持学习，持续实践。祝你在 AI 时代乘风破浪！

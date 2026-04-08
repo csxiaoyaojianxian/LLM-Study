@@ -4,7 +4,7 @@
 
 这套 8 篇教程尽量基于当前还能跑通的技术栈来写，按“聊天应用 → Prompt Engineering → RAG → LangChain → Agent → MCP → Skills”的顺序，把 AI 应用开发里最常见的一条入门路径串起来。目标不是追求绝对最新，而是尽量帮你少踩坑、先把链路跑通。
 
-📚 本系列文章一共8篇，如下：
+## 系列总览
 
 | 序号 | 主题 | 核心内容 |
 | :-------: | ------------------------------- | ----------------------------------------- |
@@ -651,14 +651,13 @@ $ vercel --prod
 
 
 
-## 六、资源推荐
+## 六、参考资料
 
 **官方文档：**
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
 - [DeepSeek API](https://platform.deepseek.com)
 - [Next.js App Router](https://nextjs.org/docs)
 
-**本期源码：**
+**相关代码：**
 - [01-Start（纯前端HTML示例）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/01-Start)
 - [02-ai_chat_sdk（Next.js + AI SDK）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/02-ai_chat_sdk)
-

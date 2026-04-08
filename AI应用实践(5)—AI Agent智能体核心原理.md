@@ -5,13 +5,13 @@
 这篇聚焦 AI Agent 的三个关键层次：ReAct 决策循环、多工具编排，以及用 StateGraph 组织复杂流程。目标不是只会调一个现成 Agent，而是理解 Agent 这套机制为什么能工作。
 
 技术栈：LangChain v1 + LangGraph + TypeScript + Zod
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
 
 ## 一、什么是 AI Agent
 
 ### 1.1 从"聊天机器人"到"智能体"的飞跃
 
-回顾前几期，我们已经构建了能聊天的 AI 应用（第 1 期），也让它通过 Function Calling 学会了查天气、做计算（第 1 期工具调用）。但你有没有发现一个问题？
+回顾前面的内容，我们已经构建了能聊天的 AI 应用，也让它通过 Function Calling 学会了查天气、做计算。但你有没有发现一个问题？
 
 **Function Calling 是"单次调用"**：你问一个问题，AI 调一次工具，给你一个答案。整个流程由你的代码控制——什么时候调工具、调哪个工具，都是**你**写死的。
 
@@ -44,7 +44,7 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.
 
 ### 1.3 与 Function Calling 的区别
 
-很多人会困惑：第 1 期不是已经实现了 Function Calling 吗？和 Agent 有什么区别？
+很多人会困惑：前面不是已经实现了 Function Calling 吗？和 Agent 有什么区别？
 
 | 维度 | Function Calling | Agent |
 | --- | --- | --- |
@@ -1017,7 +1017,7 @@ console.log("最终结果:", { plan: state2.plan, approval: state2.humanApproval
 
 
 
-## 五、总结与下期预告
+## 五、总结
 
 ### 本期回顾
 
@@ -1044,7 +1044,7 @@ StateGraph 四种模式
 └── Human-in-the-Loop ── interrupt + Command 暂停/恢复
 ```
 
-### 运行本期 Demo
+## 六、运行示例
 
 ```bash
 cd 06-agent
@@ -1056,9 +1056,12 @@ npm run tools-deep    # 工具进阶
 npm run state-graph   # StateGraph 自定义流程图
 ```
 
-### 资源推荐
+## 七、参考资料
 
+**官方文档：**
 - [LangGraph 官方文档](https://langchain-ai.github.io/langgraphjs/)
 - [LangChain v1 文档](https://js.langchain.com/)
 - [ReAct 论文](https://arxiv.org/abs/2210.03629)
-- [本系列源代码](https://github.com/csxiaoyaojianxian/LLM-Study)
+
+**相关代码：**
+- [06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)

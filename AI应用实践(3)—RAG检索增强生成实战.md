@@ -5,7 +5,7 @@
 这篇不依赖 LangChain 等框架，直接手写一个完整的 RAG 系统：文本切分 → 向量化 → 存储 → 检索 → 生成 → 多轮对话。重点不是“调通一个库”，而是把每个环节为什么这样设计讲清楚。
 
 技术栈：TypeScript + @xenova/transformers + ChromaDB + Vercel AI SDK
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag)
 
 ## 一、为什么需要 RAG
 
@@ -846,7 +846,7 @@ LLM 推断 "第一个阶段" = 离线阶段
 
 
 
-## 七、总结与下期预告
+## 七、总结
 
 ### 7.1 本期知识点回顾
 
@@ -887,8 +887,13 @@ npm run rag-pipeline        # 完整 RAG Pipeline + 纯 LLM 对比
 npm run conversational-rag  # 多轮对话 + 问题改写
 ```
 
-**官方文档**：
+## 八、参考资料
+
+**官方文档：**
 - [ChromaDB](https://docs.trychroma.com/)
 - [Xenova/transformers](https://huggingface.co/docs/transformers.js)
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
 - [BGE Embedding Models](https://huggingface.co/BAAI/bge-small-zh-v1.5)
+
+**相关代码：**
+- [04-rag](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag)

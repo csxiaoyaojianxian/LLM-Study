@@ -4,14 +4,14 @@
 
 这篇不会停留在提示词技巧层面，而是直接落到代码实现上，分别处理多模型切换、Prompt 模板、结构化输出和思维链这几个最常见的问题。
 
-技术栈：TypeScript + Vercel AI SDK + Zod + DeepSeek/OpenAI/Anthropic
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+技术栈：TypeScript + Vercel AI SDK + Zod + DeepSeek / OpenAI / Anthropic
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering)
 
 ## 一、为什么需要 Prompt Engineering
 
-### 1.1 回顾：第1期的"简单 Prompt"
+### 1.1 回顾：前文的简单 Prompt
 
-在第1期中，我们的聊天应用只用了一行 System Prompt：
+在前文里，我们的聊天应用只用了一行 System Prompt：
 
 ```typescript
 { role: 'system', content: 'You are a helpful assistant.' }
@@ -26,7 +26,7 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.
 
 ### 1.2 从"手艺人"到"工程师"
 
-打个比方，第1期我们是"手工匠人"——每次手写 Prompt，效果全凭感觉。本期的目标是成为"工程师"——用代码来管理 Prompt，让它可复用、可测试、可维护。
+打个比方，前文我们还是"手工匠人"——每次手写 Prompt，效果全凭感觉。这一篇的目标是成为"工程师"——用代码来管理 Prompt，让它可复用、可测试、可维护。
 
 **本期你将掌握四个核心技能：**
 
@@ -1004,9 +1004,9 @@ Chain-of-Thought 只是推理增强的起点，还有更高级的变体：
 
 - **Self-Consistency**：同一问题让 AI 回答多次，取多数投票的结果（牺牲成本换准确率）
 - **Tree-of-Thought (ToT)**：树状搜索多条推理路径，选最优的
-- **ReAct**：推理 + 行动交替执行（结合第1期学过的 Function Calling，让 AI 边想边做）
+- **ReAct**：推理 + 行动交替执行（结合前文学过的 Function Calling，让 AI 边想边做）
 
-## 六、总结与下期预告
+## 六、总结
 
 ### 6.1 本期知识点回顾
 
@@ -1038,10 +1038,13 @@ const { object } = await generateObject({
 });
 ```
 
-**官方文档推荐：**
+## 七、参考资料
+
+**官方文档：**
 - [Vercel AI SDK — generateObject](https://sdk.vercel.ai/docs/ai-sdk-core/generating-structured-data)
 - [Zod 官方文档](https://zod.dev/)
 - [Prompt Engineering Guide](https://www.promptingguide.ai/zh)
 - [DeepSeek API 文档](https://platform.deepseek.com)
 
-完整代码：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering)
+**相关代码：**
+- [03-prompt_engineering](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering)

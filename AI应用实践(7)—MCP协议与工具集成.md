@@ -5,13 +5,13 @@
 这篇聚焦 MCP（Model Context Protocol）怎么把工具接入这件事标准化。我们会从协议角色、通信方式讲起，再手写 Tools、Resources、Prompts 和一个可运行的 Server/Client 示例。
 
 技术栈：TypeScript / Node.js / MCP SDK / Vercel AI SDK
-GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.com/csxiaoyaojianxian/LLM-Study)
+GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
 
 ## 一、MCP 是什么
 
 ### 1.1 问题：AI 工具集成的"万国插头"困境
 
-回顾本系列前面的内容，我们已经学会了用 Function Calling 让 AI 调用外部工具（第1期），用 RAG 让 AI 访问私有知识库（第3期），用 Agent 让 AI 自主规划任务（第5期）。
+回顾前面的内容，我们已经学会了用 Function Calling 让 AI 调用外部工具，用 RAG 让 AI 访问私有知识库，也让 Agent 能够自主规划任务。
 
 但你有没有发现一个问题？**每接入一个新工具，都需要手动对接**：
 
@@ -709,13 +709,13 @@ for (const config of servers) {
 
 本节用 MCP 实现一个知识库问答服务，综合运用 Tools + Resources + Prompts 三大能力。
 
-### 5.1 与第3期 RAG 的对比
+### 5.1 与前文 RAG 方案的对比
 
-第3期我们手写了一套 RAG 流程：文本分块 → Embedding 向量化 → ChromaDB 存储 → 向量相似度搜索 → 拼入 prompt → LLM 回答。那是为了学习**检索技术**。
+前面的 RAG 实战里，我们手写了一套流程：文本分块 → Embedding 向量化 → ChromaDB 存储 → 向量相似度搜索 → 拼入 prompt → LLM 回答。那是为了学习**检索技术**。
 
 本期用 MCP 实现同样的事情，但重点是**标准化接入层**：
 
-| 对比维度 | 第3期 手写 RAG | 第7期 MCP 知识库 |
+| 对比维度 | 前文手写 RAG | 本文 MCP 知识库 |
 | --- | --- | --- |
 | **教学重点** | 语义检索技术 | MCP 协议与标准化 |
 | **检索方式** | Embedding 向量搜索 | 简单关键词匹配 |
@@ -932,7 +932,7 @@ MCP 最令人兴奋的应用场景之一是与 Claude Desktop 集成。只需一
 
 
 
-## 七、总结与下期预告
+## 七、总结
 
 ### 本期回顾
 
@@ -963,7 +963,24 @@ MCP 用一个统一的"USB 接口"标准解决了 AI 工具集成的碎片化问
 └── mcp-knowledge.ts            ← 知识库问答实战
 ```
 
+## 八、参考资料
+
 **官方文档：**
 - [MCP 官方文档](https://modelcontextprotocol.io)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
+
+**相关代码：**
+- [07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
+
+## 九、运行示例
+
+```bash
+cd 07-mcp
+cp .env.example .env  # 按需配置 API Key
+npm install
+
+npm run mcp-basics     # 最小 MCP Server / Client 交互
+npm run mcp-tools      # Tools 注册、发现与调用
+npm run mcp-knowledge  # 知识库问答示例
+```
