@@ -1,0 +1,26 @@
+{
+  "name": "12-fine-tuning",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data-preparation": "tsx src/data-preparation.ts",
+    "fine-tuning-api": "tsx src/fine-tuning-api.ts",
+    "lora-concepts": "tsx src/lora-concepts.ts",
+    "evaluation": "tsx src/evaluation.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "@ai-sdk/openai": "^2.0.0",
+    "ai": "^6.0.116",
+    "dotenv": "^16.4.0",
+    "openai": "^4.70.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "11-llamaindex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index-basics": "tsx src/index-basics.ts",
+    "query-engine": "tsx src/query-engine.ts",
+    "rag-llamaindex": "tsx src/rag-llamaindex.ts",
+    "advanced-rag": "tsx src/advanced-rag.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "@ai-sdk/openai": "^2.0.0",
+    "ai": "^6.0.116",
+    "dotenv": "^16.4.0",
+    "llamaindex": "^0.8.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

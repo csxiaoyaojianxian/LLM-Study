@@ -1,0 +1,25 @@
+{
+  "name": "13-ai-platform",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "platform-concepts": "tsx src/platform-concepts.ts",
+    "dify-api": "tsx src/dify-api.ts",
+    "coze-api": "tsx src/coze-api.ts",
+    "platform-vs-custom": "tsx src/platform-vs-custom.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.0",
+    "@ai-sdk/deepseek": "^2.0.24",
+    "@ai-sdk/openai": "^2.0.0",
+    "ai": "^6.0.116",
+    "dotenv": "^16.4.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}

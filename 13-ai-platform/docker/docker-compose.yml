@@ -1,0 +1,36 @@
+# Dify 本地部署 Docker Compose 配置（简化版）
+# 完整部署请参考官方文档: https://docs.dify.ai/getting-started/install-self-hosted/docker-compose
+#
+# 使用方式:
+#   cd docker && docker compose up -d
+#
+# 注意: 这是一个简化的示例配置，生产环境请使用官方完整配置
+# 官方 Docker Compose: https://github.com/langgenius/dify/tree/main/docker
+
+version: "3.8"
+
+services:
+  # 说明: Dify 的完整部署包含多个服务
+  # 建议直接使用官方 Docker Compose 文件
+  #
+  # 快速部署步骤:
+  # 1. git clone https://github.com/langgenius/dify.git
+  # 2. cd dify/docker
+  # 3. cp .env.example .env
+  # 4. docker compose up -d
+  #
+  # 启动后访问: http://localhost (默认端口 80)
+  # 首次访问需设置管理员账号
+  #
+  # 主要服务:
+  # - api: Dify 后端 API 服务
+  # - web: Dify 前端 Web 服务
+  # - worker: 后台任务处理
+  # - db: PostgreSQL 数据库
+  # - redis: Redis 缓存
+  # - weaviate/qdrant: 向量数据库（二选一）
+  # - sandbox: 代码执行沙箱
+
+  placeholder:
+    image: alpine:latest
+    command: echo "请使用 Dify 官方 Docker Compose 文件部署。参见上方注释。"

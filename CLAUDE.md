@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-LLM-Study is an educational project teaching LLM application development to web developers using TypeScript/Node.js. It consists of 10 independent modules (not a monorepo — no root package.json). Each module is self-contained with its own `package.json`, `tsconfig.json`, and dependencies.
+LLM-Study is an educational project teaching LLM application development to web developers using TypeScript/Node.js. It consists of 13 independent modules (not a monorepo — no root package.json). Each module is self-contained with its own `package.json`, `tsconfig.json`, and dependencies.
 
 ## Module Build & Run Commands
 
@@ -103,9 +103,36 @@ npm run rate-limit        # Rate limiting (no API key)
 npm run monitoring        # Logging + metrics (no API key)
 ```
 
+**11-llamaindex** — LlamaIndex knowledge management (comparison with Module 04/05):
+```bash
+cd 11-llamaindex && npm install
+npm run index-basics      # Core concepts: Document, Node, Index (no API key)
+npm run query-engine      # Query engine comparison (vector, summary, keyword)
+npm run rag-llamaindex    # LlamaIndex RAG vs LangChain RAG
+npm run advanced-rag      # Advanced RAG: SubQuestion, reranking, router
+```
+
+**12-fine-tuning** — Fine-tuning techniques:
+```bash
+cd 12-fine-tuning && npm install
+npm run data-preparation  # Training data prep (no API key)
+npm run fine-tuning-api   # OpenAI Fine-tuning API (needs OpenAI key)
+npm run lora-concepts     # LoRA/QLoRA principles (no API key, no GPU)
+npm run evaluation        # Model evaluation with LLM-as-Judge
+```
+
+**13-ai-platform** — AI platforms (Coze & Dify):
+```bash
+cd 13-ai-platform && npm install
+npm run platform-concepts   # Platform comparison (no API key)
+npm run dify-api            # Dify API integration (needs Dify deployment)
+npm run coze-api            # Coze API integration (needs Coze credentials)
+npm run platform-vs-custom  # Platform vs custom RAG comparison
+```
+
 ## Environment Setup
 
-Modules 02–10 use API keys (some scripts work without). Copy `.env.example` to `.env` (or `.env.local` for Next.js) and fill in at least one:
+Modules 02–13 use API keys (some scripts work without). Copy `.env.example` to `.env` (or `.env.local` for Next.js) and fill in at least one:
 - `DEEPSEEK_API_KEY` (recommended, cheapest)
 - `OPENAI_API_KEY` (required for multimodal features: DALL-E, Whisper, TTS)
 - `ANTHROPIC_API_KEY`
@@ -113,6 +140,8 @@ Modules 02–10 use API keys (some scripts work without). Copy `.env.example` to
 External services required by specific modules:
 - **ChromaDB** (modules 04, 05): `docker run -d -p 8000:8000 chromadb/chroma`
 - **Ollama** (module 10): Install from https://ollama.com/download, then `ollama pull qwen3.5:9b`
+- **Dify** (module 13): `git clone https://github.com/langgenius/dify.git && cd dify/docker && docker compose up -d`
+- **Coze** (module 13): Register at https://www.coze.cn, create a Bot, get Access Token
 
 ## Architecture
 
@@ -123,7 +152,7 @@ External services required by specific modules:
 - `chatWithModel(provider, messages, options?)` → returns response text
 - `getDefaultProvider()` → auto-detects first configured provider from env vars
 
-This file is **copied** (not shared) across modules (03, 04, 05, 06, 07, 09, 10) to keep each independently runnable. Later copies extend with additional capabilities (e.g., module 09 adds `getVisionProvider()`, module 10 adds Ollama detection via `getOllamaModels()`).
+This file is **copied** (not shared) across modules (03, 04, 05, 06, 07, 09, 10, 11, 12, 13) to keep each independently runnable. Later copies extend with additional capabilities (e.g., module 09 adds `getVisionProvider()`, module 10 adds Ollama detection via `getOllamaModels()`).
 
 ### Module 02 — Next.js Streaming Chat
 
@@ -161,6 +190,32 @@ Three-layer model: Host → Client → Server over JSON-RPC 2.0 (stdio transport
 - **Rate limiting**: Token bucket algorithm (requests/sec + tokens/min)
 - **Token cost**: Per-model pricing with cumulative tracking
 - **Monitoring**: Structured JSON logging + dashboard aggregation
+
+### Module 11 — LlamaIndex Knowledge Management
+
+Comparative study with Module 04/05 RAG implementations using LlamaIndex.TS:
+- `index-basics.ts` — Document, Node (SentenceSplitter), Index concepts (no API key)
+- `query-engine.ts` — VectorStoreIndex vs SummaryIndex query engines
+- `rag-llamaindex.ts` — `LlamaIndexRAG` class wrapping VectorStoreIndex + QueryEngine, ContextChatEngine for multi-turn
+- `advanced-rag.ts` — SubQuestionQueryEngine, SimilarityPostprocessor reranking, RouterQueryEngine
+- Knowledge base in `data/knowledge/` (3 Chinese markdown files)
+
+### Module 12 — Fine-tuning
+
+Complete fine-tuning workflow in TypeScript (no Python/PyTorch dependency):
+- `data-preparation.ts` — OpenAI JSONL / Alpaca / ShareGPT format conversion, data cleaning pipeline (no API key)
+- `fine-tuning-api.ts` — OpenAI Fine-tuning API wrapper (upload → create job → monitor → use model)
+- `lora-concepts.ts` — LoRA/QLoRA parameter math, memory estimation, toolchain guide (no API key, no GPU)
+- `evaluation.ts` — Keyword coverage metrics + LLM-as-Judge scoring, overfitting detection
+- Training data generated to `data/formatted/` (JSONL + Alpaca JSON)
+
+### Module 13 — AI Platform (Coze & Dify)
+
+Platform vs custom development comparison:
+- `platform-concepts.ts` — Three pillars (Workflow, Knowledge, Plugins), architecture analysis (no API key)
+- `dify-api.ts` — `DifyClient` class: Chat/Completion/Workflow APIs, SSE streaming, knowledge base API
+- `coze-api.ts` — `CozeClient` class: Chat API with polling, SSE streaming, plugin development concepts
+- `platform-vs-custom.ts` — Same scenario (customer service QA) implemented via Dify API, Coze API, and custom RAG
 
 ### CLI Script Pattern (all CLI modules)
 
