@@ -11,6 +11,7 @@
 - 用 LangChain 重构 RAG Pipeline，对比手写实现
 - 了解 Memory 对话记忆的演进方式
 - 实现自定义 Tool + Agent 自动编排
+- 了解 LangGraph 在 LangChain 生态中的角色，为 06-agent 模块的深入学习打基础
 
 ## 环境配置
 
@@ -658,7 +659,45 @@ const model = new ChatOpenAI({
 
 **建议学习路径：** 先手写理解原理（03-04）→ 再用框架提升效率（05）→ 生产中根据需求选择。
 
-### 九、LangChain 版本演进与注意事项
+### 九、从 LangChain 到 LangGraph — 进阶路线图
+
+本模块已经使用了 LangGraph 的两个关键组件：`MemorySaver`（Demo 4）和 `createReactAgent`（Demo 4-5），但这只是 LangGraph 的"冰山一角"。当你的应用从简单的线性链升级为复杂的 Agent 系统时，就需要 LangGraph 的完整能力。
+
+**什么时候该用 LangGraph？**
+
+```
+本模块 LCEL 链能搞定的 ✅             需要 LangGraph 的 ❌（→ 见 06-agent 模块）
+─────────────────────────             ────────────────────────────────────
+线性流程: A → B → C                   条件分支: if X then A else B
+单次工具调用                          多轮工具循环 + 自动终止判断
+简单对话记忆                          状态持久化 + 断点恢复 + 时间旅行
+单 Agent                             多 Agent 协作（管道/路由/辩论/Supervisor）
+同步执行                              人机交互审批（interrupt + resume）
+```
+
+**06-agent 模块涵盖的 LangGraph 核心内容：**
+
+| 主题 | 说明 | 对应 Demo |
+|------|------|-----------|
+| ReAct 模式深入 | 手动实现 Thought→Action→Observation 循环，理解 Agent 底层原理 | `npm run react-agent` |
+| StateGraph | `Annotation.Root()` 定义类型化状态，条件边、循环、人机交互 | `npm run state-graph` |
+| Agent 记忆 | MemorySaver 深度使用、多会话管理、检查点恢复 | `npm run memory-agent` |
+| 多 Agent 编排 | 4 种模式：顺序管道、条件路由、Supervisor、辩论 | `npm run multi-agent` |
+
+**学习路径建议：**
+
+```
+Module 05（本模块）                         Module 06（下一步 ⭐）
+├── LCEL 链式调用                           ├── StateGraph 状态图
+├── Tool 定义 + bindTools                   ├── 多工具编排 + 错误处理
+├── createReactAgent（基础使用）      →      ├── ReAct 模式深入（手写 + 框架）
+├── MemorySaver（基础使用）           →      ├── Agent 记忆（多会话 + 持久化）
+└── 单 Agent                         →      └── 多 Agent 协作（4 种模式）
+```
+
+> 💡 **LangChain 和 LangGraph 是同一团队开发的互补项目**，在实际项目中几乎总是配合使用。本模块帮你掌握"零件"（Model、Prompt、Tool、Memory），06-agent 模块教你用 LangGraph 把零件"组装"成复杂的 Agent 系统。建议学完本模块后立即进入 06-agent。
+
+### 十、LangChain 版本演进与注意事项
 
 LangChain 发展迅速，API 变化较大。本模块基于 **v1** 编写。以下是 v0.3 → v1 的关键变更：
 

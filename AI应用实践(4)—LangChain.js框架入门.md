@@ -117,7 +117,9 @@ LangChain 围绕五大核心概念构建：
 | 简单线性链 | LCEL `pipe()` 串联 | prompt-lcel、output-parser |
 | 对话记忆 | LangGraph `MemorySaver` | memory-chat |
 | 工具调用 + 自动循环 | `createReactAgent` / `createAgent` | custom-tool |
-| 复杂分支/循环/断点恢复 | LangGraph `StateGraph`（本模块未涉及） | 见 06-agent 模块 |
+| 复杂分支/循环/断点恢复 | LangGraph `StateGraph`（本模块未涉及） | 见下篇：AI应用实践(5)—AI Agent智能体核心原理 |
+
+> 💡 **重要提示**：本篇仅使用了 LangGraph 的 `MemorySaver` 和 `createReactAgent` 两个"开箱即用"的组件。LangGraph 更核心的能力——`StateGraph` 状态图、条件分支、循环控制、人机交互审批（interrupt）、多 Agent 协作——将在下篇 **AI应用实践(5)—AI Agent智能体核心原理** 和 **AI应用实践(6)—Multi-Agent与状态管理** 中结合实战案例详细讲解。建议学完本篇后直接进入 Agent 部分，两者联系非常紧密。
 
 ### 1.5 环境准备
 
@@ -397,6 +399,7 @@ import { RunnablePassthrough } from "@langchain/core/runnables";
 
 // 保留原始数据，同时新增计算字段（类似 { ...input, newField: value }）
 const passthrough = RunnablePassthrough.assign({
+  // assign 里的每个 key 都是一个 Runnable，接收原始输入，输出作为新字段
   uppercased: new RunnableLambda({
     func: (input: { text: string }) => input.text.toUpperCase(),
   }),
@@ -725,6 +728,8 @@ await agent.invoke(
 | LangGraph `MemorySaver` | v1 推荐 ⭐ | ✅ | ✅ | ✅ 可换 | Agent、生产环境 |
 
 > 💡 类比理解：`RunnableWithMessageHistory` ≈ 浏览器的 `sessionStorage`（仅内存存储消息历史）；`MemorySaver` ≈ 数据库 + 事务日志（存完整状态，可回溯、可恢复）。生产环境可换 `PostgresSaver` 等持久化方案。
+>
+> 🔗 **进阶预告**：本节展示的 MemorySaver 仅是基础用法。在下篇 Agent 教程中，你将看到 MemorySaver 如何与 StateGraph 配合，实现条件分支、循环控制、断点恢复（"时间旅行"调试）、多会话隔离等高级模式。
 
 运行示例：
 ```bash
@@ -896,7 +901,9 @@ const agent = createAgent({
 | `createReactAgent` | @langchain/langgraph | 中 | 可自定义状态图，底层可控 |
 | `createAgent` | langchain v1 | 低 | 快速上手，生产推荐 ⭐ |
 
-> ⚠️ Agent 需要模型支持稳定的 function calling，推荐使用 OpenAI API Key 以获得最佳体验。DeepSeek 的 function calling 可能不稳定。
+> ⚠️ Agent 需要模型支持稳定的 function calling，推荐使用 OpenAI API Key 以获得最佳体验。
+
+> 🔗 **进阶预告**：本节演示的是单 Agent + 简单工具调用（LangGraph 的 `createReactAgent`）。当你需要**多工具复杂编排**、**条件分支与循环**、**多 Agent 协作**（管道、路由、Supervisor、辩论）、**人机交互审批**等能力时，就需要 LangGraph 的 `StateGraph`——这是下篇 Agent 教程的核心内容。
 
 运行示例：
 ```bash
@@ -1134,13 +1141,28 @@ npm run rag-langchain
 
 **推荐策略**：前端用 Vercel AI SDK 做流式 UI，后端用 LangChain 做 AI 逻辑编排。两者也可以混合使用。
 
-### 8.3 学习路径建议
+### 8.3 从 LangChain 到 LangGraph — 下一步学什么
+
+本篇已经用到了 LangGraph 的两个组件（`MemorySaver`、`createReactAgent`），但这只是冰山一角。当应用从简单线性链升级为复杂 Agent 系统时，需要 LangGraph 的完整能力：
 
 ```
-先手写理解原理（01-04）→ 再用框架提升效率（05）→ 生产中按需选择
+本篇 LCEL 链能搞定的 ✅               需要 LangGraph StateGraph 的 ❌
+─────────────────────────             ─────────────────────────────
+线性流程: A → B → C                   条件分支: if X then A else B
+单次工具调用                          多轮工具循环 + 自动终止判断
+简单对话记忆                          状态持久化 + 断点恢复 + 时间旅行
+单 Agent                             多 Agent 协作（管道/路由/辩论/Supervisor）
+同步执行                              人机交互审批（interrupt + resume）
 ```
 
-**手写不是浪费时间！** 理解了底层原理，使用框架时才能知道它帮你做了什么，出问题时才能定位和优化。
+**接下来两篇文章将深入讲解 LangGraph：**
+
+| 篇目 | 核心内容 | 对应 Demo |
+|------|---------|-----------|
+| AI应用实践(5)—AI Agent智能体核心原理 | ReAct 手动实现、createReactAgent 深入、多工具编排 | `npm run react-agent` / `npm run tools-deep` |
+| AI应用实践(6)—Multi-Agent与状态管理 | StateGraph 状态图、多 Agent 协作、人机交互、Agent 记忆 | `npm run state-graph` / `npm run multi-agent` |
+
+> 💡 **LangChain 和 LangGraph 是同一团队开发的互补项目**——LangChain 提供"零件"（Model、Prompt、Tool、Memory），LangGraph 负责"组装"（状态图、条件分支、多 Agent 编排）。建议学完本篇后立即进入下篇。
 
 ### 8.4 版本踩坑提醒
 
@@ -1174,5 +1196,3 @@ LangChain 发展迅速，网上很多教程基于 v0.1/v0.2 版本，代码在 v
 - [Chroma 集成文档](https://js.langchain.com/docs/integrations/vectorstores/chroma/)
 - [LangChain v1 Migration Guide](https://js.langchain.com/docs/versions/migrating_to_v1/)
 
-**相关代码：**
-- [05-langchain](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/05-langchain)

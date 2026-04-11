@@ -1,8 +1,8 @@
 # AI应用实践(1)—从零构建智能聊天应用
 
-很多 AI 入门文章的问题，不是原理讲错了，而是示例代码依赖的 SDK、接口和脚手架版本已经变了。读者照着写，往往先踩一轮版本坑。
+AI 浪潮下各大博客平台上的技术文章已经数不胜数，但翻了一圈下来，多数要么偏理论综述缺少可运行代码，要么示例依赖的 SDK、接口和脚手架版本已经过时，读者照着写往往先踩一轮版本坑。这也是我仍然选择写这个系列的原因——**以”能跑通”为第一优先级，用一套统一的技术栈把完整链路串起来，边写代码边讲原理**。
 
-这套 8 篇教程尽量基于当前还能跑通的技术栈来写，按“聊天应用 → Prompt Engineering → RAG → LangChain → Agent → MCP → Skills”的顺序，把 AI 应用开发里最常见的一条入门路径串起来。目标不是追求绝对最新，而是尽量帮你少踩坑、先把链路跑通。
+这套 11 篇教程按”聊天应用 → Prompt Engineering → RAG → LangChain → Agent → MCP → Skills → LlamaIndex → Fine-tuning → AI 平台”的顺序，覆盖 AI 应用开发从入门到生产的完整路径。目标不是追求绝对最新，而是尽量帮你少踩坑、先把链路跑通。
 
 ## 系列总览
 
@@ -16,6 +16,9 @@
 | 6 | Multi-Agent与状态管理 | Agent 记忆 + 状态管理 + Multi-Agent 协作 |
 | 7 | MCP协议与工具集成 | MCP + Tools + Resources + Prompts + Server/Client |
 | 8 | Claude Code Skills 定制体系 | Skills + Hooks + Settings + CLAUDE.md |
+| 9 | LlamaIndex知识管理与信息检索 | Document + Index + QueryEngine + 高级 RAG |
+| 10 | Fine-tuning模型微调技术 | 数据准备 + OpenAI API + LoRA/QLoRA + 评估 |
+| 11 | AI应用平台Coze与Dify实战 | 平台架构 + API 集成 + 平台 vs 自研对比 |
 
 本篇先从最基础的聊天应用开始，分别用原生 HTML 和 Next.js + AI SDK 实现一个支持流式输出、多轮对话和 Function Calling 的可运行 Demo。
 
@@ -44,11 +47,11 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study](https://github.
 
 现在，让我们聊聊一个实际的问题：当你调用AI API时，费用是怎么计算的？
 
-答案不是按字符数，而是按**Token**。
+答案不是按字符数，而是按**Token**，前阵子，这个单词有了它的官方中文名：**词元**。
 
 **什么是Token？**
 
-简单来说，Token是大模型能够理解和处理的最小文本单元，一个专业的解释叫"词元"。在模型眼中，你输入的文字不是"你好世界"，而是一串数字ID：`[12345, 67890, ...]`。这个转换过程叫做**Tokenization**，由专门的Tokenizer完成。
+简单来说，Token是大模型能够理解和处理的最小文本单元。在模型眼中，你输入的文字不是"你好世界"，而是一串数字ID：`[12345, 67890, ...]`。这个转换过程叫做**Tokenization**，由专门的Tokenizer完成。
 
 你可以访问 [https://platform.openai.com/tokenizer](https://platform.openai.com/tokenizer) 感受下Token的切分方式差异：
 
@@ -349,6 +352,8 @@ data: {"id":"52af3ea1-6dd5-41c6-874a-566c91d8de8f","object":"chat.completion.chu
 
 data: [DONE]
 ```
+
+可以看到，每个 chunk 的 `delta.content` 字段携带一小段文本（"我是"、"Deep"、"Se"、"ek"……），前端逐个拼接即可实现打字机效果。当最后一个 chunk 的 `finish_reason` 为 `"stop"` 时表示模型生成完毕，随后收到 `data: [DONE]` 标记整个流结束，前端据此关闭连接、停止 loading 状态。
 
 
 
@@ -654,10 +659,8 @@ $ vercel --prod
 ## 六、参考资料
 
 **官方文档：**
+
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
 - [DeepSeek API](https://platform.deepseek.com)
 - [Next.js App Router](https://nextjs.org/docs)
 
-**相关代码：**
-- [01-Start（纯前端HTML示例）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/01-Start)
-- [02-ai_chat_sdk（Next.js + AI SDK）](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/02-ai_chat_sdk)

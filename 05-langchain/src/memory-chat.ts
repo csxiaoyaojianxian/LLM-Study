@@ -278,6 +278,16 @@ async function main() {
       const msgCount = (checkpoint.channel_values as { messages?: BaseMessage[] }).messages?.length ?? 0;
       console.log(`📊 thread "memory-demo-1" 的 checkpoint 中有 ${msgCount} 条消息`);
     }
+
+    // 🔗 进阶提示：LangGraph 的 MemorySaver 在本 Demo 中只用了最基础的功能。
+    //    在 06-agent 模块中，你将看到 MemorySaver 的更多能力：
+    //    - StateGraph 自定义状态图：条件分支、循环、人机交互审批（interrupt）
+    //    - 多会话管理：同一 Agent 同时维护多个独立会话
+    //    - 检查点恢复：从任意历史状态恢复执行（"时间旅行"调试）
+    //    → 运行 06-agent: npm run memory-agent / npm run state-graph
+    console.log("\n🔗 进阶: 本 Demo 仅展示了 MemorySaver 的基础用法");
+    console.log("   06-agent 模块将深入讲解 StateGraph 状态图、多会话管理、断点恢复等高级模式");
+    console.log("   → cd ../06-agent && npm run state-graph");
   } catch (error) {
     console.log("❌ LangGraph Agent 执行失败（可能是模型不支持 function calling）");
     console.log("   建议：配置 OPENAI_API_KEY 后重试");

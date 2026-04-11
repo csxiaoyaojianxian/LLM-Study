@@ -873,9 +873,7 @@ npm run multi-agent
 
 
 
-## 六、总结
-
-### Agent 体系完整回顾（第 5 + 6 期）
+## 六、Agent 体系完整回顾（第 5 + 6 期）
 
 经过两期的学习，我们已经构建了完整的 Agent 知识体系：
 
@@ -898,18 +896,7 @@ npm run multi-agent
 **相关代码：**
 - [06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
 
-## 七、运行示例
-
-```bash
-cd 06-agent
-cp .env.example .env  # 配置至少一个 API Key
-npm install
-
-npm run memory-agent  # Agent 记忆、checkpoint 与状态回溯
-npm run multi-agent   # 多智能体协作模式
-```
-
-## 八、参考资料
+## 七、参考资料
 
 **官方文档：**
 - [LangGraph 文档](https://langchain-ai.github.io/langgraphjs/)

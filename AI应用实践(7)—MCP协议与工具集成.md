@@ -932,9 +932,7 @@ MCP 最令人兴奋的应用场景之一是与 Claude Desktop 集成。只需一
 
 
 
-## 七、总结
-
-### 本期回顾
+## 七、本期回顾
 
 MCP 用一个统一的"USB 接口"标准解决了 AI 工具集成的碎片化问题：
 
@@ -973,14 +971,3 @@ MCP 用一个统一的"USB 接口"标准解决了 AI 工具集成的碎片化问
 **相关代码：**
 - [07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
 
-## 九、运行示例
-
-```bash
-cd 07-mcp
-cp .env.example .env  # 按需配置 API Key
-npm install
-
-npm run mcp-basics     # 最小 MCP Server / Client 交互
-npm run mcp-tools      # Tools 注册、发现与调用
-npm run mcp-knowledge  # 知识库问答示例
-```

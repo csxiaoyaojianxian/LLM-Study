@@ -1,0 +1,21 @@
+{
+  "name": "14-harness",
+  "version": "1.0.0",
+  "description": "Module 14: 从 Claude Code 源码学习 Harness 工程",
+  "type": "module",
+  "scripts": {
+    "01-bootstrap": "tsx src/01-bootstrap-flow.ts",
+    "02-agent-loop": "tsx src/02-agent-loop.ts",
+    "03-tool-system": "tsx src/03-tool-system.ts",
+    "04-permission": "tsx src/04-permission-system.ts",
+    "05-hooks": "tsx src/05-hooks-system.ts",
+    "06-patterns": "tsx src/06-design-patterns.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.2"
+  }
+}

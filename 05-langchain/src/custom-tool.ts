@@ -245,6 +245,15 @@ tool_calls: [
   console.log("│ createAgent            │ langchain v1     │ 快速上手（推荐） │");
   console.log("└────────────────────────┴──────────────────┴──────────────────┘");
 
+  // 🔗 进阶提示
+  console.log("\n🔗 进阶: 本模块演示的是单 Agent + 简单工具调用。");
+  console.log("   当你需要以下能力时，请进入 06-agent 模块学习 LangGraph 的完整编排能力：");
+  console.log("   • 多工具复杂编排 + 错误处理与重试");
+  console.log("   • StateGraph 自定义流程图（条件分支、循环、中断恢复）");
+  console.log("   • 多 Agent 协作模式（顺序管道、条件路由、Supervisor、辩论）");
+  console.log("   • 人机交互审批（interrupt + resume）");
+  console.log("   → cd ../06-agent && npm run react-agent");
+
   console.log("\n" + "=".repeat(60));
   console.log("✅ Custom Tool + Agent Demo 完成！");
 }

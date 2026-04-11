@@ -1,6 +1,6 @@
 # AI应用实践(8)—Claude Code Skills定制体系
 
-前面的 1 到 7 篇，基本都在讲“如何调用 AI 能力”。最后这一篇换个角度，不再只关注模型调用，而是讨论怎么把一个通用的 AI 编码助手定制成真正懂项目、懂流程、懂约束的开发伙伴。
+前面的 1 到 7 篇，基本都在讲”如何调用 AI 能力”。这一篇换个角度，不再只关注模型调用，而是讨论怎么把一个通用的 AI 编码助手定制成真正懂项目、懂流程、懂约束的开发伙伴。
 
 这里会围绕 Claude Code 的四个核心机制展开：`CLAUDE.md`、Skills、Hooks 和 Settings。重点不是功能罗列，而是这些机制怎样组合起来，形成一套可复用的团队协作方式。
 
@@ -684,24 +684,3 @@ npm run migrate   # 数据库迁移
 **相关代码：**
 - [08-skill](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/08-skill)
 
-## 八、运行示例
-
-```bash
-cd 08-skill
-npm install
-
-# Skills 概念讲解（无需 API Key）
-npm run skill-concepts
-
-# 总览所有配置示例
-npm run showcase
-
-# Hook 机制详解 + 模拟测试
-npm run hooks-demo
-
-# Settings 层级与合并规则
-npm run settings-explain
-
-# 一键安装示例到 .claude/ 目录
-npm run setup
-```

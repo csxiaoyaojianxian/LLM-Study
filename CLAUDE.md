@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-LLM-Study is an educational project teaching LLM application development to web developers using TypeScript/Node.js. It consists of 13 independent modules (not a monorepo — no root package.json). Each module is self-contained with its own `package.json`, `tsconfig.json`, and dependencies.
+LLM-Study is an educational project teaching LLM application development to web developers using TypeScript/Node.js. It consists of 14 independent modules (not a monorepo — no root package.json). Each module is self-contained with its own `package.json`, `tsconfig.json`, and dependencies.
 
 ## Module Build & Run Commands
 
@@ -130,6 +130,17 @@ npm run coze-api            # Coze API integration (needs Coze credentials)
 npm run platform-vs-custom  # Platform vs custom RAG comparison
 ```
 
+**14-harness** — Claude Code source code architecture study (no API key needed):
+```bash
+cd 14-harness && npm install
+npm run 01-bootstrap     # Bootstrap flow & cold start optimization
+npm run 02-agent-loop    # Agent loop & message flow
+npm run 03-tool-system   # Tool system & concurrent execution
+npm run 04-permission    # Multi-layer permission system
+npm run 05-hooks         # Hook system & CLAUDE.md context loading
+npm run 06-patterns      # 10 design patterns summary
+```
+
 ## Environment Setup
 
 Modules 02–13 use API keys (some scripts work without). Copy `.env.example` to `.env` (or `.env.local` for Next.js) and fill in at least one:
@@ -216,6 +227,16 @@ Platform vs custom development comparison:
 - `dify-api.ts` — `DifyClient` class: Chat/Completion/Workflow APIs, SSE streaming, knowledge base API
 - `coze-api.ts` — `CozeClient` class: Chat API with polling, SSE streaming, plugin development concepts
 - `platform-vs-custom.ts` — Same scenario (customer service QA) implemented via Dify API, Coze API, and custom RAG
+
+### Module 14 — Harness Engineering (Claude Code Source Study)
+
+Architecture study of Claude Code source (~1,900 files, 512K+ lines). All scripts are educational (no API key needed):
+- `01-bootstrap-flow.ts` — Startup optimization: prefetch, Feature Flags, init sequence, bootstrap singletons
+- `02-agent-loop.ts` — Agent loop: QueryEngine/query.ts two-layer architecture, message normalization, context compaction, streaming
+- `03-tool-system.ts` — Tool system: Tool interface, 45+ tools catalog, registration, StreamingToolExecutor (FIFO concurrent), execution pipeline
+- `04-permission-system.ts` — Permission: 5-layer decision (rules → classifier → interactive → coordinator → final), 4 modes, progressive trust
+- `05-hooks-system.ts` — Hooks: 14+ event types, serial execution, CLAUDE.md discovery & injection, memory files, system context assembly
+- `06-design-patterns.ts` — 10 design patterns: AsyncGenerator, FIFO executor, decision pipeline, memoize+invalidation, DeepImmutable, Feature Flags, DI, token-aware retry, progressive trust, serial hook pipeline
 
 ### CLI Script Pattern (all CLI modules)
 

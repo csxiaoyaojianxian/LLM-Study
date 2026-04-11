@@ -2,6 +2,8 @@
 
 前两篇解决了模型调用和 Prompt 管理的问题，但模型的知识边界并没有变。想让 AI 回答最新文档、私有资料和业务知识，RAG 基本是绕不过去的一层。
 
+值得一提的是，随着模型上下文窗口不断扩大（从 4K → 128K → 1M+），"把文档全塞进 Prompt"在很多场景下已经可行，RAG 不再是唯一解。但当文档量超出窗口限制、需要精确溯源引用、对推理成本敏感、或者知识库持续更新时，RAG 仍然是更务实的选择。**理解 RAG 的原理不会过时——即使窗口无限大，"先检索再生成"的思想本身也是一种通用的工程模式。**
+
 这篇不依赖 LangChain 等框架，直接手写一个完整的 RAG 系统：文本切分 → 向量化 → 存储 → 检索 → 生成 → 多轮对话。重点不是“调通一个库”，而是把每个环节为什么这样设计讲清楚。
 
 技术栈：TypeScript + @xenova/transformers + ChromaDB + Vercel AI SDK
@@ -23,7 +25,7 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag
 
 ### 1.2 RAG 的核心思想：先检索再生成
 
-**RAG（Retrieval-Augmented Generation，检索增强生成）** 的思路非常直觉——
+**RAG（Retrieval-Augmented Generation，检索增强生成）** 的思路非常直觉：
 
 > 🎒 **类比**：想象你参加一场考试。
 > - **纯 LLM** = 闭卷考试：全靠脑子记，记不清就瞎编
@@ -228,7 +230,7 @@ export function paragraphChunk(
 
 **Embedding 就是把文字变成一组数字（向量），让"含义相近"的文字对应"距离相近"的向量。**
 
-> 🎒 **类比**：想象一个二维地图，每个词都有一个坐标。"狗"和"猫"离得近（都是宠物），"狗"和"飞机"离得远。Embedding 就是给每段文字一个"坐标"，只不过这个坐标不是2维，而是 512 维。
+> 🎒 **类比**：想象一个二维地图，每个词都有一个坐标。"狗"和"猫"离得近（都是宠物），"狗"和"飞机"离得远。Embedding 就是给每段文字一个"坐标"，只不过这个坐标不是2维，而是高维，如 512 维。
 
 ```
 "什么是机器学习"  →  [0.12, -0.34, 0.56, ..., 0.78]  (512维)
@@ -304,7 +306,7 @@ cosine(A, C):
 
 ### 3.3 本地 Embedding 模型：@xenova/transformers
 
-生成 Embedding 需要模型。好消息是，**我们可以在本地运行 Embedding 模型，不需要调用 API，不花钱。**
+生成 Embedding 需要模型。好消息是，在实验学习阶段，**我们可以在本地运行 Embedding 模型，不需要调用 API，不花钱。**
 
 `@xenova/transformers` 是 HuggingFace Transformers 的 JS 版本，能在 Node.js 环境直接运行模型。
 
@@ -668,7 +670,9 @@ async queryWithoutRAG(question: string): Promise<string> {
 
 
 
-## 六、多轮对话 RAG
+## 六、延伸：多轮对话中的 RAG
+
+> 💡 这一节严格来说更偏"上下文工程"而非 RAG 本身。之所以放在这里讲，是因为**代词消解是 RAG 进入多轮对话后遇到的第一个实际痛点**——"它有什么优势？"这种问题如果不改写，向量检索根本找不到正确的内容。换句话说，这是 RAG 系统从"能用"到"好用"必须解决的衔接问题。后续 Module 05 的 LangChain Memory 和 Module 11 的 LlamaIndex ContextChatEngine 都会用框架内置的方式重新处理这个问题。
 
 ### 6.1 问题：代词消解
 
@@ -846,9 +850,7 @@ LLM 推断 "第一个阶段" = 离线阶段
 
 
 
-## 七、总结
-
-### 7.1 本期知识点回顾
+## 七、本期回顾
 
 我们从零实现了一个完整的 RAG 系统，涵盖 5 个核心环节：
 
@@ -870,23 +872,6 @@ chunking.ts  →  embeddings.ts  →  vector-store.ts  →  rag-pipeline.ts → 
 | RAG 查询 | Prompt 设计 | 严格约束 + 来源标注 + 低 temperature |
 | 多轮对话 | 代词处理 | LLM 问题改写，history 长度限制 |
 
-### 7.2 快速上手
-
-```bash
-cd 04-rag
-npm install
-cp .env.example .env    # 填入 API Key
-
-# 不需要 API Key 的 Demo（体验切分和向量化）
-npm run chunking        # 三种切分策略对比
-npm run embeddings      # 本地 Embedding + 中英模型 PK
-
-# 需要 API Key + ChromaDB 的 Demo（体验完整 RAG）
-docker run -d -p 8000:8000 chromadb/chroma    # 启动 ChromaDB
-npm run rag-pipeline        # 完整 RAG Pipeline + 纯 LLM 对比
-npm run conversational-rag  # 多轮对话 + 问题改写
-```
-
 ## 八、参考资料
 
 **官方文档：**
@@ -895,5 +880,3 @@ npm run conversational-rag  # 多轮对话 + 问题改写
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
 - [BGE Embedding Models](https://huggingface.co/BAAI/bge-small-zh-v1.5)
 
-**相关代码：**
-- [04-rag](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag)

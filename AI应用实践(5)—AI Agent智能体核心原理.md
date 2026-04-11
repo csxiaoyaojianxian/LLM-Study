@@ -538,7 +538,7 @@ console.log(result.structuredResponse);
 
 
 
-## 四、StateGraph — 自定义流程图
+## 四、LangGraph StateGraph — 自定义流程图
 
 ### 4.1 超越 ReAct：为什么需要 StateGraph
 
@@ -1017,9 +1017,7 @@ console.log("最终结果:", { plan: state2.plan, approval: state2.humanApproval
 
 
 
-## 五、总结
-
-### 本期回顾
+## 五、本期回顾
 
 本期我们深入了 AI Agent 的核心原理，掌握了三大核心技能：
 
@@ -1044,24 +1042,10 @@ StateGraph 四种模式
 └── Human-in-the-Loop ── interrupt + Command 暂停/恢复
 ```
 
-## 六、运行示例
-
-```bash
-cd 06-agent
-cp .env.example .env  # 配置至少一个 API Key（推荐 OpenAI）
-npm install
-
-npm run react-agent   # ReAct 模式三种实现
-npm run tools-deep    # 工具进阶
-npm run state-graph   # StateGraph 自定义流程图
-```
-
-## 七、参考资料
+## 六、参考资料
 
 **官方文档：**
 - [LangGraph 官方文档](https://langchain-ai.github.io/langgraphjs/)
 - [LangChain v1 文档](https://js.langchain.com/)
 - [ReAct 论文](https://arxiv.org/abs/2210.03629)
 
-**相关代码：**
-- [06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
