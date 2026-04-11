@@ -22,13 +22,15 @@ export type Provider = "deepseek" | "openai" | "anthropic" | "ollama";
 /** 各 provider 的默认模型 */
 const DEFAULT_MODELS: Record<Provider, string> = {
   deepseek: "deepseek-chat",
-  openai: "gpt-4o-mini",
+  // openai: "gpt-4o-mini",
+  openai: "gpt-5-nano",
   anthropic: "claude-3-5-haiku-latest",
   ollama: "qwen3.5:9b",
 };
 
 /** Ollama 默认地址 */
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+const BASE_URL = process.env.BASE_URL;
 
 // ============================================================
 // 2. getModel — 根据 provider 返回模型实例
@@ -52,6 +54,7 @@ export function getModel(provider: Provider, modelName?: string): LanguageModel 
     }
     case "openai": {
       const openai = createOpenAI({
+        // baseURL: BASE_URL,
         apiKey: process.env.OPENAI_API_KEY,
       });
       return openai(model);

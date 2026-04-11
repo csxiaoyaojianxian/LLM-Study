@@ -263,6 +263,12 @@ async function main(): Promise<void> {
 
   const client = new OpenAI({ apiKey });
 
+  // const fileId = await uploadTrainingFile(client);
+  // if (fileId) {
+  //   const jobId = await createFineTuningJob(client, fileId);
+  //   if (jobId) await monitorJob(client, jobId);
+  // }
+
   // 交互式流程演示
   console.log("\n📌 以下是完整的 Fine-tuning 流程演示:");
   console.log("  注意: 实际执行会产生费用，以下仅展示代码和流程\n");
