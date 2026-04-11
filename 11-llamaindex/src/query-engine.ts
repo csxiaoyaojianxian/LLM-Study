@@ -15,8 +15,11 @@ import {
   VectorStoreIndex,
   SummaryIndex,
   Settings,
+  OpenAI,
+  OpenAIEmbedding,
+  DeepSeekLLM,
 } from "llamaindex";
-import { getModel, getDefaultProvider, type Provider } from "./model-adapter.js";
+import { getDefaultProvider, type Provider } from "./model-adapter.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -28,15 +31,81 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // ============================================================
 
 /**
- * 配置 LlamaIndex 的全局设置
- * LlamaIndex 默认使用 OpenAI，这里配置使用我们的 model-adapter
+ * 配置 LlamaIndex 的全局 LLM 和 Embedding 模型
+ *
+ * LlamaIndex.TS 默认使用 OpenAI（gpt-4o-mini + text-embedding-ada-002）。
+ * 通过 Settings 可以切换到其他 provider：
+ * - OpenAI: 直接使用内置 OpenAI 类
+ * - DeepSeek: 使用内置 DeepSeekLLM 类 + OpenAI 兼容 Embedding
+ * - Anthropic: 通过 OpenAI 兼容 API 接入（需要适配）
+ *
+ * 对比 Module 03 的 model-adapter.ts:
+ *   model-adapter 是我们自己封装的适配层（基于 Vercel AI SDK）
+ *   LlamaIndex Settings 是框架内置的全局配置（基于自己的 LLM 封装）
  */
 function configureLlamaIndex(provider: Provider): void {
   console.log(`\n⚙️  配置 LlamaIndex 使用 ${provider} 模型...`);
 
-  // LlamaIndex.TS 支持通过 Settings 配置全局 LLM 和 Embedding
-  // 注意：LlamaIndex.TS 有自己的 LLM 封装，我们这里使用其内置的 OpenAI 支持
-  // 对于非 OpenAI 模型，通过设置兼容的 API 来实现
+  switch (provider) {
+    case "deepseek": {
+      // DeepSeek: LlamaIndex 内置了 DeepSeekLLM
+      Settings.llm = new DeepSeekLLM({
+        model: "deepseek-chat",
+        apiKey: process.env.DEEPSEEK_API_KEY,
+      });
+      // Embedding: DeepSeek 不提供 Embedding API，使用 OpenAI 兼容方式
+      // 如果没有 OpenAI Key，LlamaIndex 会使用默认的内置 Embedding
+      if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "sk-") {
+        Settings.embedModel = new OpenAIEmbedding({
+          model: "text-embedding-3-small",
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+      }
+      console.log("  ✅ LLM: DeepSeek (deepseek-chat)");
+      console.log("  ✅ Embedding: " + (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "sk-"
+        ? "OpenAI (text-embedding-3-small)"
+        : "默认 (OpenAI text-embedding-ada-002)"));
+      break;
+    }
+    case "openai": {
+      // OpenAI: LlamaIndex 默认就是 OpenAI，显式配置以确保参数正确
+      Settings.llm = new OpenAI({
+        model: "gpt-4o-mini",
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      Settings.embedModel = new OpenAIEmbedding({
+        model: "text-embedding-3-small",
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+      console.log("  ✅ LLM: OpenAI (gpt-4o-mini)");
+      console.log("  ✅ Embedding: OpenAI (text-embedding-3-small)");
+      break;
+    }
+    case "anthropic": {
+      // Anthropic: LlamaIndex 也有内置支持，但这里简化处理
+      // 使用 OpenAI 兼容方式调用（如果有 OpenAI Key 用于 Embedding）
+      console.log("  ⚠️  Anthropic 模型在 LlamaIndex 中需要额外配置");
+      console.log("  💡 建议使用 OpenAI 或 DeepSeek 作为 LlamaIndex 的 LLM");
+      if (process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY !== "sk-") {
+        Settings.llm = new OpenAI({
+          model: "claude-4-6-opus",
+          apiKey: process.env.ANTHROPIC_API_KEY,
+          additionalSessionOptions: {
+            baseURL: process.env.ANTHROPIC_BASE_URL,
+          },
+        });
+        Settings.embedModel = new OpenAIEmbedding({
+          model: "text-embedding-3-small",
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+        console.log("  ✅ 回退到 OpenAI (gpt-4o-mini)");
+      }
+      break;
+    }
+    default: {
+      console.log(`  ⚠️  未知 provider: ${provider}，使用 LlamaIndex 默认配置`);
+    }
+  }
 }
 
 // ============================================================

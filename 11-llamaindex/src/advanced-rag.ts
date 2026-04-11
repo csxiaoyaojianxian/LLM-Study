@@ -17,8 +17,11 @@ import {
   SummaryIndex,
   SentenceSplitter,
   SimilarityPostprocessor,
-  QueryEngineTool,
   RouterQueryEngine,
+  Settings,
+  OpenAI,
+  OpenAIEmbedding,
+  DeepSeekLLM,
 } from "llamaindex";
 import { getDefaultProvider, type Provider } from "./model-adapter.js";
 import fs from "fs";
@@ -76,15 +79,6 @@ async function demonstrateSubQuestionQuery(
   console.log("  → 子问题1: 'TypeScript 在 AI 开发中的角色是什么？'");
   console.log("  → 子问题2: 'Node.js 在 AI 开发中的角色是什么？'");
   console.log("  → 合并两个回答生成对比分析\n");
-
-  // 创建查询引擎工具
-  const queryEngineTool = new QueryEngineTool({
-    queryEngine: vectorIndex.asQueryEngine({ similarityTopK: 3 }),
-    metadata: {
-      name: "knowledge_base",
-      description: "包含 TypeScript、Node.js 和 LLM 开发相关知识的文档库",
-    },
-  });
 
   // 复杂问题测试
   const complexQuestions = [
@@ -173,22 +167,16 @@ async function demonstrateRouterQuery(documents: Document[]): Promise<void> {
     console.log("  🏗️  构建摘要索引（用于总结查询）...");
     const summaryIndex = await SummaryIndex.fromDocuments(documents);
 
-    // 创建查询引擎工具
-    const vectorTool = new QueryEngineTool({
+    // 创建查询引擎工具（RouterQueryEngine 使用简单的 { queryEngine, description } 格式）
+    const vectorTool = {
       queryEngine: vectorIndex.asQueryEngine(),
-      metadata: {
-        name: "vector_search",
-        description: "适合回答具体的技术问题，例如某个特性的说明、具体的用法等",
-      },
-    });
+      description: "适合回答具体的技术问题，例如某个特性的说明、具体的用法等",
+    };
 
-    const summaryTool = new QueryEngineTool({
+    const summaryTool = {
       queryEngine: summaryIndex.asQueryEngine(),
-      metadata: {
-        name: "summary_search",
-        description: "适合总结和概览类问题，例如总结文档内容、生成报告等",
-      },
-    });
+      description: "适合总结和概览类问题，例如总结文档内容、生成报告等",
+    };
 
     // 创建路由查询引擎
     const routerEngine = RouterQueryEngine.fromDefaults({
@@ -267,6 +255,21 @@ async function main(): Promise<void> {
     console.log("请复制 .env.example 为 .env 并配置 API Key 后重试\n");
     showAdvancedRAGSummary();
     return;
+  }
+
+  // 配置 LlamaIndex 全局模型
+  console.log(`\n⚙️  配置 LlamaIndex 使用 ${provider} 模型...`);
+  switch (provider) {
+    case "deepseek":
+      Settings.llm = new DeepSeekLLM({ model: "deepseek-chat", apiKey: process.env.DEEPSEEK_API_KEY });
+      if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "sk-") {
+        Settings.embedModel = new OpenAIEmbedding({ model: "text-embedding-3-small", apiKey: process.env.OPENAI_API_KEY });
+      }
+      break;
+    case "openai":
+      Settings.llm = new OpenAI({ model: "gpt-4o-mini", apiKey: process.env.OPENAI_API_KEY });
+      Settings.embedModel = new OpenAIEmbedding({ model: "text-embedding-3-small", apiKey: process.env.OPENAI_API_KEY });
+      break;
   }
 
   // 加载文档

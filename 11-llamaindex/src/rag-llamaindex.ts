@@ -15,14 +15,49 @@ import {
   VectorStoreIndex,
   SentenceSplitter,
   Settings,
+  OpenAI,
+  OpenAIEmbedding,
+  DeepSeekLLM,
   ContextChatEngine,
 } from "llamaindex";
-import { getDefaultProvider, chatWithModel } from "./model-adapter.js";
+import { getDefaultProvider, chatWithModel, type Provider } from "./model-adapter.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// ============================================================
+// 0. 配置 LlamaIndex 全局模型
+// ============================================================
+
+/** 根据 provider 配置 LlamaIndex 的 LLM 和 Embedding */
+function configureLlamaIndex(provider: Provider): void {
+  console.log(`\n⚙️  配置 LlamaIndex 使用 ${provider} 模型...`);
+  switch (provider) {
+    case "deepseek":
+      Settings.llm = new DeepSeekLLM({
+        model: "deepseek-chat",
+        apiKey: process.env.DEEPSEEK_API_KEY,
+      });
+      if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "sk-") {
+        Settings.embedModel = new OpenAIEmbedding({
+          model: "text-embedding-3-small",
+          apiKey: process.env.OPENAI_API_KEY,
+        });
+      }
+      console.log("  ✅ LLM: DeepSeek | Embedding: " +
+        (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY !== "sk-" ? "OpenAI" : "默认"));
+      break;
+    case "openai":
+      Settings.llm = new OpenAI({ model: "gpt-4o-mini", apiKey: process.env.OPENAI_API_KEY });
+      Settings.embedModel = new OpenAIEmbedding({ model: "text-embedding-3-small", apiKey: process.env.OPENAI_API_KEY });
+      console.log("  ✅ LLM: OpenAI (gpt-4o-mini) | Embedding: OpenAI");
+      break;
+    default:
+      console.log("  ⚠️  使用 LlamaIndex 默认配置 (OpenAI)");
+  }
+}
 
 // ============================================================
 // 1. LlamaIndex RAG 实现
@@ -235,8 +270,9 @@ async function main(): Promise<void> {
   console.log("🚀 LlamaIndex RAG 实战 — 对比 Module 04/05\n");
 
   // 检查 API Key
+  let provider: Provider;
   try {
-    const provider = getDefaultProvider();
+    provider = getDefaultProvider();
     console.log(`✅ 使用模型提供商: ${provider}`);
   } catch {
     console.log("⚠️  未配置 API Key");
@@ -244,6 +280,9 @@ async function main(): Promise<void> {
     showCodeComparison();
     return;
   }
+
+  // 配置 LlamaIndex 全局模型
+  configureLlamaIndex(provider);
 
   // 构建 RAG
   const rag = new LlamaIndexRAG();

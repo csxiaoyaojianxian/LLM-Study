@@ -23,12 +23,14 @@ export type Provider = "deepseek" | "openai" | "anthropic" | "ollama";
 const DEFAULT_MODELS: Record<Provider, string> = {
   deepseek: "deepseek-chat",
   openai: "gpt-4o-mini",
-  anthropic: "claude-3-5-haiku-latest",
+  // anthropic: "claude-3-5-haiku-latest",
+  anthropic: "claude-4-6-opus",
   ollama: "qwen3.5:9b",
 };
 
 /** Ollama 默认地址 */
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || "http://localhost:11434";
+const ANTHROPIC_API_BASE_URL = process.env.ANTHROPIC_API_BASE_URL || "https://api.anthropic.com";
 
 // ============================================================
 // 2. getModel — 根据 provider 返回模型实例
@@ -59,6 +61,7 @@ export function getModel(provider: Provider, modelName?: string): LanguageModel 
     case "anthropic": {
       const anthropic = createAnthropic({
         apiKey: process.env.ANTHROPIC_API_KEY,
+        baseURL: ANTHROPIC_API_BASE_URL,
       });
       return anthropic(model);
     }
