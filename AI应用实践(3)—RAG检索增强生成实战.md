@@ -672,7 +672,7 @@ async queryWithoutRAG(question: string): Promise<string> {
 
 ## 六、延伸：多轮对话中的 RAG
 
-> 💡 这一节严格来说更偏"上下文工程"而非 RAG 本身。之所以放在这里讲，是因为**代词消解是 RAG 进入多轮对话后遇到的第一个实际痛点**——"它有什么优势？"这种问题如果不改写，向量检索根本找不到正确的内容。换句话说，这是 RAG 系统从"能用"到"好用"必须解决的衔接问题。后续 Module 05 的 LangChain Memory 和 Module 11 的 LlamaIndex ContextChatEngine 都会用框架内置的方式重新处理这个问题。
+> 💡 这一节严格来说更偏"上下文工程"而非 RAG 本身。之所以放在这里讲，是因为**代词消解是 RAG 进入多轮对话后遇到的第一个实际痛点**——"它有什么优势？"这种问题如果不改写，向量检索根本找不到正确的内容。换句话说，这是 RAG 系统从"能用"到"好用"必须解决的衔接问题。后续第 4 篇的 LangChain Memory 和第 9 篇的 LlamaIndex ContextChatEngine 都会用框架内置的方式重新处理这个问题。
 
 ### 6.1 问题：代词消解
 
@@ -871,6 +871,8 @@ chunking.ts  →  embeddings.ts  →  vector-store.ts  →  rag-pipeline.ts → 
 | 向量数据库 | 数据库 + 距离函数 | ChromaDB + 余弦距离 |
 | RAG 查询 | Prompt 设计 | 严格约束 + 来源标注 + 低 temperature |
 | 多轮对话 | 代词处理 | LLM 问题改写，history 长度限制 |
+
+本篇从零手写了 RAG 的每个环节，好处是原理清楚，缺点是接入方式和应用强耦合——换一个 AI 工具就要重写对接代码。后续第 5 篇会用 LangChain 框架大幅简化代码量，第 9 篇用 LlamaIndex 进一步将 RAG 压缩到十几行代码，第 7 篇则会介绍 MCP（Model Context Protocol），把知识库检索封装成标准化的 MCP Server，实现"写一次，任何 AI 工具都能用"的效果。
 
 ## 八、参考资料
 

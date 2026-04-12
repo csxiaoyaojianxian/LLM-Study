@@ -1,6 +1,6 @@
 # AI应用实践(6)—Multi-Agent与状态管理
 
-上一期解决了 Agent 如何思考和调用工具，这一篇继续补上两个更接近真实生产的问题：记忆和协作。
+上一篇解决了 Agent 如何思考和调用工具，这一篇继续补上两个更接近真实生产的问题：记忆和协作。
 
 没有状态管理，Agent 每次运行都像失忆；没有角色拆分，复杂任务很快就会变成一个巨大而脆弱的提示词。这里我们重点看 Agent 的记忆体系、状态回溯，以及 Multi-Agent 的几种协作方式。
 
@@ -9,7 +9,7 @@ GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-age
 
 
 
-## 本文内容
+## 本文内容概要
 
 - 🧠 Agent 记忆体系：MemorySaver + thread_id + checkpoint 状态回溯
 - 💾 状态导出与导入：跨进程迁移 Agent 状态
@@ -178,7 +178,7 @@ console.log("消息总数:", state.values.messages?.length);
 console.log("checkpoint_id:", state.config?.configurable?.checkpoint_id);
 ```
 
-返回的状态对象包含以下关键字段：
+返回的state状态对象包含以下关键字段：
 
 | 字段 | 说明 | 类比 |
 | --- | --- | --- |
@@ -222,7 +222,7 @@ const result = await agent.invoke(
 );
 // 🤖 Agent: 你没有告诉过我你的年龄（第 3 轮的计算已被"撤销"）
 
-// 但仍然记得书签之前的内容
+// 此时已经回溯，但仍然记得书签之前的内容
 const result2 = await agent.invoke(
   { messages: [new HumanMessage("那你还记得我叫什么名字吗？")] },
   { configurable: { thread_id: "session-001" } }
@@ -893,8 +893,7 @@ npm run multi-agent
          Agent + Agent → 能团队协作
 ```
 
-**相关代码：**
-- [06-agent](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/06-agent)
+
 
 ## 七、参考资料
 

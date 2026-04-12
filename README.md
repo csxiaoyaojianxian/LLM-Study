@@ -27,9 +27,15 @@
 │ 07-mcp             MCP 协议与服务 ⭐
 │ 08-skill           Claude Code Skills 定制体系
 │
-扩展篇 ────────────────────────
+扩展篇 ──────────────────────── 第9-11期
 │ 09-multimodal      多模态应用
 │ 10-deployment      本地部署与优化
+│ 11-llamaindex      LlamaIndex 知识管理
+│ 12-fine-tuning     模型微调技术
+│ 13-ai-platform     AI 应用平台（Coze & Dify）
+│
+工程篇 ────────────────────────
+│ 14-harness         Claude Code 源码架构研究
 ```
 
 ---
@@ -66,10 +72,19 @@
 
 ### 扩展篇
 
-| 模块 | 内容 | 状态 |
+| 模块 | 内容 | 教程 |
 | --- | --- | --- |
 | [09-multimodal](./09-multimodal/) | **多模态应用** — Vision 图片理解与分析、图片生成（DALL-E）、语音识别（Whisper）与语音合成（TTS）、多模态综合对话应用 | ✅ |
 | [10-deployment](./10-deployment/) | **本地部署与优化** — Ollama 本地部署开源模型、本地模型整合替换、生产环境优化（缓存/限流/Token 计费/监控）、成本控制 | ✅ |
+| [11-llamaindex](./11-llamaindex/) | **LlamaIndex 知识管理** — Document/Node/Index 四层抽象、VectorStoreIndex/SummaryIndex 查询引擎、RouterQueryEngine 智能路由、ContextChatEngine 多轮对话、与 LangChain RAG 对比 | [第9期](./AI应用实践(9)—LlamaIndex知识管理与信息检索.md) |
+| [12-fine-tuning](./12-fine-tuning/) | **模型微调技术** — 训练数据准备（OpenAI JSONL/Alpaca/ShareGPT 格式）、OpenAI Fine-tuning API、LoRA/QLoRA 原理与参数计算、LLM-as-Judge 评估 | [第10期](./AI应用实践(10)—Fine-tuning模型微调技术.md) |
+| [13-ai-platform](./13-ai-platform/) | **AI 应用平台** — Dify API 集成（Chat/Workflow/知识库）、Coze API 集成（Bot/Plugin/Workflow）、平台 vs 自研 RAG 对比、选型策略 | [第11期](./AI应用实践(11)—AI应用平台Coze与Dify实战.md) |
+
+### 工程篇
+
+| 模块 | 内容 | 状态 |
+| --- | --- | --- |
+| [14-harness](./14-harness/) | **Claude Code 源码架构研究** — Bootstrap 启动流程、Agent Loop 消息流、Tool 系统与并发执行、多层权限体系、Hook 系统与上下文加载、10 大设计模式 | ✅ |
 
 
 ---
@@ -80,11 +95,12 @@
 | --- | --- |
 | 语言 | TypeScript / Node.js |
 | 前端框架 | Next.js / React |
-| AI SDK | Vercel AI SDK / LangChain.js / LangGraph |
+| AI SDK | Vercel AI SDK / LangChain.js / LangGraph / LlamaIndex.TS |
 | LLM 模型 | DeepSeek / OpenAI / Claude（多模型切换） |
 | 向量数据库 | ChromaDB |
 | 本地部署 | Ollama |
 | AI 生态 | MCP Protocol / Claude Code Skills |
+| AI 平台 | Dify / Coze |
 | 部署 | Vercel / Docker |
 
 ---
@@ -222,6 +238,56 @@ npm run token-cost        # Token 计费与成本控制
 npm run rate-limit        # 限流与并发控制（纯逻辑，无需 API Key）
 npm run monitoring        # 监控与日志（纯逻辑，无需 API Key）
 ```
+
+**11-llamaindex — LlamaIndex 知识管理**
+
+```bash
+cd 11-llamaindex
+cp .env.example .env  # 配置 API Key
+npm install
+npm run index-basics      # 核心概念：Document, Node, Index（无需 API Key）
+npm run query-engine      # 查询引擎对比（vector, summary, keyword）
+npm run rag-llamaindex    # LlamaIndex RAG vs LangChain RAG
+npm run advanced-rag      # 高级 RAG：SubQuestion, 重排序, 路由查询
+```
+
+**12-fine-tuning — 模型微调技术**
+
+```bash
+cd 12-fine-tuning
+cp .env.example .env  # 配置 API Key
+npm install
+npm run data-preparation  # 训练数据准备（无需 API Key）
+npm run fine-tuning-api   # OpenAI Fine-tuning API（需要 OpenAI Key）
+npm run lora-concepts     # LoRA/QLoRA 原理（无需 API Key，无需 GPU）
+npm run evaluation        # 模型评估 LLM-as-Judge
+```
+
+**13-ai-platform — AI 应用平台（Coze & Dify）**
+
+```bash
+cd 13-ai-platform
+cp .env.example .env  # 配置 API Key
+npm install
+npm run platform-concepts   # 平台核心概念对比（无需 API Key）
+npm run dify-api            # Dify API 集成（需要 Dify 部署）
+npm run coze-api            # Coze API 集成（需要 Coze 凭证）
+npm run platform-vs-custom  # 平台 vs 自研 RAG 对比
+```
+
+**14-harness — Claude Code 源码架构研究**
+
+```bash
+cd 14-harness
+npm install
+npm run 01-bootstrap     # Bootstrap 启动流程与冷启动优化
+npm run 02-agent-loop    # Agent Loop 与消息流
+npm run 03-tool-system   # Tool 系统与并发执行
+npm run 04-permission    # 多层权限体系
+npm run 05-hooks         # Hook 系统与 CLAUDE.md 上下文加载
+npm run 06-patterns      # 10 大设计模式总结
+```
+
 ---
 
 ## 项目结构
@@ -242,6 +308,10 @@ LLM-Study/
 ├── 08-skill/                          ✅ Claude Code Skills 定制体系
 ├── 09-multimodal/                     ✅ 多模态应用
 ├── 10-deployment/                     ✅ 本地部署与优化
+├── 11-llamaindex/                     ✅ LlamaIndex 知识管理
+├── 12-fine-tuning/                    ✅ 模型微调技术
+├── 13-ai-platform/                    ✅ AI 应用平台（Coze & Dify）
+├── 14-harness/                        ✅ Claude Code 源码架构研究
 └── README.md                          📍 学习路线总览（本文件）
 ```
 
@@ -261,6 +331,9 @@ LLM-Study/
 | 第6期 | [Multi-Agent 与状态管理](./AI应用实践(6)—Multi-Agent与状态管理.md) | 06-agent（下） |
 | 第7期 | [MCP 协议与工具集成](./AI应用实践(7)—MCP协议与工具集成.md) | 07-mcp |
 | 第8期 | [Claude Code Skills 定制体系](./AI应用实践(8)—Claude%20Code%20Skills定制体系.md) | 08-skill |
+| 第9期 | [LlamaIndex 知识管理与信息检索](./AI应用实践(9)—LlamaIndex知识管理与信息检索.md) | 11-llamaindex |
+| 第10期 | [Fine-tuning 模型微调技术](./AI应用实践(10)—Fine-tuning模型微调技术.md) | 12-fine-tuning |
+| 第11期 | [AI 应用平台 Coze 与 Dify 实战](./AI应用实践(11)—AI应用平台Coze与Dify实战.md) | 13-ai-platform |
 
 ---
 

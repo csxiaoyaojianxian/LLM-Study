@@ -1,8 +1,18 @@
 # AI应用实践(7)—MCP协议与工具集成
 
-前面的工具调用和 Agent 示例，默认前提都是“每接一个工具，就自己写一套接入代码”。Demo 阶段没问题，但工具一多、宿主一多，维护成本会迅速失控。
+前面的工具调用和 Agent 示例，默认前提都是”每接一个工具，就自己写一套接入代码”。Demo 阶段没问题，但工具一多、宿主一多，维护成本会迅速失控。
 
 这篇聚焦 MCP（Model Context Protocol）怎么把工具接入这件事标准化。我们会从协议角色、通信方式讲起，再手写 Tools、Resources、Prompts 和一个可运行的 Server/Client 示例。
+
+不过需要先说一下背景：MCP 自 2024 年底发布后快速普及，但随着 Claude Code Skills（见第 8 篇）等原生能力体系的成熟，很多原本需要 MCP Server 才能实现的场景——自定义工具调用、项目上下文注入、Prompt 模板复用——现在通过 Skills + Hooks + CLAUDE.md 就能更轻量地解决，不用额外维护一个 Server 进程。
+
+那 MCP 还有必要学吗？有，因为它在三个场景下仍然不可替代：
+
+- **跨 Host 复用**：同一个 MCP Server 可以同时被 Claude Desktop、VS Code Copilot、Cursor 等多个 AI 应用使用，Skills 只在 Claude Code 内生效
+- **远程服务集成**：通过 HTTP+SSE 连接数据库、内部系统等远程 API，Skills 主要面向本地操作
+- **团队级工具标准化**：统一的 Server 发布和版本管理，适合多人协作的基础设施层
+
+简单说，本地定制、轻量功能优先用 Skills，跨平台、远程、团队共享优先用 MCP。理解 MCP 的协议设计和三大原语（Tools / Resources / Prompts）仍然是 AI 工程师的基本功，下面开始。
 
 技术栈：TypeScript / Node.js / MCP SDK / Vercel AI SDK
 GitHub 仓库：[https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
@@ -885,18 +895,13 @@ console.log(`🤖 回答: ${result.text}`);
 
 
 
-## 六、与 Claude Desktop 集成
+## 六、在 AI 工具中接入 MCP Server
 
-MCP 最令人兴奋的应用场景之一是与 Claude Desktop 集成。只需一个配置文件，你自定义的 MCP Server 就能在 Claude Desktop 中使用——真正的"即插即用"。
+前面我们手写了 Server 和 Client，但 MCP 的真正价值是"写一次 Server，到处用"。目前主流的 AI 工具基本都已支持 MCP，配置方式大同小异——在工具的配置文件中声明 Server 的启动命令即可。
 
-### 6.1 配置文件
+### 6.1 通用配置格式
 
-找到 Claude Desktop 的配置文件 `claude_desktop_config.json`：
-
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-
-添加如下配置：
+不同工具的配置文件位置和格式略有差异，但核心结构一致：
 
 ```json
 {
@@ -913,20 +918,30 @@ MCP 最令人兴奋的应用场景之一是与 Claude Desktop 集成。只需一
 }
 ```
 
-> ⚠️ 替换 `/absolute/path/to/` 为你的实际项目路径，然后重启 Claude Desktop。
+各工具的配置文件位置：
 
-### 6.2 效果
+| 工具 | 配置文件 |
+| --- | --- |
+| **Claude Code** | 项目根目录 `.claude/settings.json` 或全局 `~/.claude/settings.json` |
+| **VS Code (Copilot / Continue)** | `.vscode/settings.json` 或 VS Code Settings UI |
+| **Cursor** | 项目根目录 `.cursor/mcp.json` |
+| **Claude Desktop** | macOS: `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` |
 
-重启后，Claude Desktop 会自动：
+> ⚠️ 替换 `/absolute/path/to/` 为你的实际项目路径。部分工具需要重启后生效。
+
+### 6.2 接入效果
+
+配置完成后，AI 工具会自动：
 
 1. **启动 Server** — spawn 子进程运行你的 MCP Server
 2. **发现能力** — 自动调用 listTools/listResources/listPrompts
 3. **展示给用户** — Tools 显示为 LLM 可调用的工具，Resources 显示为可附加的上下文
 
-现在你可以在 Claude Desktop 中直接：
-- 问 "帮我算 99 × 88" → Claude 自动调用 calculator 工具
-- 问 "深圳天气怎么样" → Claude 自动调用 get_weather 工具
-- 问 "知识库里有什么内容" → Claude 搜索你的 knowledge.md
+现在你可以在任何支持 MCP 的工具中直接：
+- 问 "帮我算 99 × 88" → 自动调用 calculator 工具
+- 问 "深圳天气怎么样" → 自动调用 get_weather 工具
+- 问 "知识库里有什么内容" → 搜索你的 knowledge.md
 
 这就是 MCP 的终极价值：**写一次 Server，所有支持 MCP 的 Host 都能用**。就像你买了一个 USB 键盘，插到任何电脑上都能工作。
 
@@ -961,13 +976,12 @@ MCP 用一个统一的"USB 接口"标准解决了 AI 工具集成的碎片化问
 └── mcp-knowledge.ts            ← 知识库问答实战
 ```
 
+
+
 ## 八、参考资料
 
 **官方文档：**
 - [MCP 官方文档](https://modelcontextprotocol.io)
 - [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
 - [Vercel AI SDK](https://sdk.vercel.ai/docs)
-
-**相关代码：**
-- [07-mcp](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/07-mcp)
 

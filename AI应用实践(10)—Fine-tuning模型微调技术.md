@@ -1,6 +1,6 @@
 # AI应用实践(10)—Fine-tuning模型微调技术
 
-前面学了 RAG（Module 04/05/11），解决的是"让模型获取外部知识"。但如果你想让模型学会特定的回答风格、掌握专业术语、或者始终遵循特定的输出格式——RAG 就不够了，需要 Fine-tuning。
+前面学了 RAG（第 3/4/9 篇），解决的是"让模型获取外部知识"。但如果你想让模型学会特定的回答风格、掌握专业术语、或者始终遵循特定的输出格式——RAG 就不够了，需要 Fine-tuning。
 
 这篇从 Web 开发者的视角讲 Fine-tuning：不需要会 Python，不需要有 GPU，但你需要理解整个流程——数据准备、训练方式选择、API 调用、效果评估。重点放在"什么时候该用、怎么用好"，而不是底层数学推导。
 
@@ -64,7 +64,7 @@ Fine-tuning ─→ 改变"怎么想"（模型内部优化）
 | 场景 | 应该用 |
 |------|--------|
 | 补充最新知识 | RAG（知识会过时，而微调不能随时更新） |
-| 简单格式调整 | Zod + structured output（Module 03） |
+| 简单格式调整 | Zod + structured output（第 2 篇） |
 | 一次性任务 | Prompt Engineering |
 | 需要引用来源 | RAG（微调无法提供出处） |
 
@@ -72,7 +72,7 @@ Fine-tuning ─→ 改变"怎么想"（模型内部优化）
 
 ## 二、训练数据准备
 
-训练数据是 Fine-tuning 成功的关键——"垃圾进，垃圾出"在这里体现得淋漓尽致。Module 12 的 `data-preparation.ts` 演示了从数据生成到清洗、拆分、导出的完整流程。
+训练数据是 Fine-tuning 成功的关键——"垃圾进，垃圾出"在这里体现得淋漓尽致。本篇的 `data-preparation.ts` 演示了从数据生成到清洗、拆分、导出的完整流程。
 
 ### 2.1 数据格式详解
 
@@ -461,57 +461,7 @@ const response = await client.chat.completions.create({
 
 > 💡 微调后的模型使用方式与原始模型完全相同，只是模型名称不同。这意味着你不需要改任何业务代码，只需要换一个模型名。
 
-### 3.3 运行 `npm run fine-tuning-api` 输出
-
-```
-🚀 OpenAI Fine-tuning API 实战教程
-
-============================================================
-📋 1. OpenAI Fine-tuning API 流程
-============================================================
-
-📌 完整流程（4 步）:
-  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-  │  上传    │ →  │  创建    │ →  │  监控    │ →  │  使用    │
-  │ 训练文件 │    │ 微调任务 │    │ 训练进度 │    │ 微调模型 │
-  └──────────┘    └──────────┘    └──────────┘    └──────────┘
-
-📌 支持的基座模型:
-  - gpt-4o-mini-2024-07-18 （推荐，性价比最高）
-  - gpt-4o-2024-08-06
-  - gpt-3.5-turbo-0125
-
-📌 费用估算（以 gpt-4o-mini 为例）:
-  训练: $0.30 / 100万 tokens
-  推理: $0.30 / 100万 input tokens, $1.20 / 100万 output tokens
-  示例: 100 条训练数据 × ~500 tokens/条 = ~50K tokens ≈ $0.015
-
-⚠️  未配置 OPENAI_API_KEY
-请在 .env 中配置 OPENAI_API_KEY 后重试
-以下展示最佳实践（不需要 API Key）:
-
-============================================================
-💡 6. Fine-tuning 最佳实践
-============================================================
-
-📌 数据质量:
-  - 至少 50 条高质量训练数据（推荐 100-500 条）
-  - 数据格式一致，system prompt 统一
-  - 回答长度适中（太短学不到，太长浪费 token）
-  - 覆盖各种问法和场景
-
-📌 超参数选择:
-  - n_epochs: 一般 2-4 轮，数据少可以多训几轮
-  - learning_rate_multiplier: 默认即可，除非效果异常
-  - batch_size: 自动选择通常最优
-
-📌 成本控制:
-  - 先用少量数据验证效果，再扩大数据集
-  - gpt-4o-mini 性价比最高，优先选择
-  - 监控 validation loss，避免过拟合
-```
-
-### 3.4 成本估算
+### 3.3 成本估算
 
 OpenAI 微调的费用比很多人想象的要低得多：
 
@@ -524,7 +474,7 @@ OpenAI 微调的费用比很多人想象的要低得多：
 
 > 💡 **成本控制建议**：先用 10-20 条数据做小规模验证，确认格式和效果没问题，再扩大到完整数据集。小规模训练费用几乎可以忽略。
 
-### 3.5 Fine-tuning 服务商对比
+### 3.4 Fine-tuning 服务商对比
 
 除了 OpenAI，还有多种微调方案可选：
 
@@ -668,11 +618,11 @@ QLoRA:
 
 ```
 准备数据(TS)  → QLoRA训练(Python) → 合并权重     → 导出GGUF     → Ollama部署
-Module 12       Unsloth/            merge_and_     llama.cpp      Module 10
-                LLaMA-Factory       unload()       / Unsloth
+本篇            Unsloth/            merge_and_     llama.cpp      部署模块
+                LLaMA-Factory       unload()       / Unsloth      (10-deployment)
 ```
 
-**Step 1: 数据准备（TypeScript，Module 12）**
+**Step 1: 数据准备（TypeScript，本篇）**
 
 运行 `npm run data-preparation` 生成 `train.jsonl`。
 
@@ -706,7 +656,7 @@ python convert_hf_to_gguf.py my-model-merged --outtype q4_k_m
 model.save_pretrained_gguf("my-model", tokenizer, quantization_method="q4_k_m")
 ```
 
-**Step 5: 用 Ollama 部署（对接 Module 10）**
+**Step 5: 用 Ollama 部署（对接部署模块 10-deployment）**
 
 ```bash
 # 创建 Modelfile
@@ -715,88 +665,13 @@ ollama create my-ts-assistant -f Modelfile
 ollama run my-ts-assistant
 ```
 
-部署后直接用 Module 10 的 model-adapter 调用：
+部署后直接用部署模块（10-deployment）的 model-adapter 调用：
 
 ```typescript
 const model = getModel("ollama", "my-ts-assistant");
 ```
 
-### 4.7 运行 `npm run lora-concepts` 输出
-
-```
-🚀 LoRA/QLoRA 原理讲解
-本教程是纯概念讲解，无需 API Key 或 GPU
-
-============================================================
-📚 1. Fine-tuning 方法对比
-============================================================
-
-🔴 Full Fine-tuning（全量微调）
-  - 更新模型的所有参数
-  - 效果最好，但需要大量 GPU 显存
-  - 7B 模型需要 ~60GB 显存（FP16）
-
-🟢 LoRA（Low-Rank Adaptation）
-  - 冻结原始模型，只训练低秩分解矩阵
-  - 训练参数减少 99%+，显存需求大幅降低
-  - 7B 模型仅需 ~16GB 显存
-
-🔵 QLoRA（Quantized LoRA）
-  - 在 LoRA 基础上，将模型量化为 4-bit
-  - 7B 模型仅需 ~6GB 显存（单张消费级 GPU！）
-
-============================================================
-🧮 2. LoRA 原理 — 低秩分解
-============================================================
-
-📌 核心思想: 权重更新矩阵是低秩的
-  原始权重 W ∈ R^(d×d)
-  更新量 ΔW = B × A，其中 B ∈ R^(d×r)，A ∈ R^(r×d)
-
-📊 参数量计算示例:
-  ...（完整参数表，见上文 4.3 节）
-
-📌 详细计算（以 7B 模型, r=8 为例）:
-  隐藏维度 d = 4096
-  LoRA 秩 r = 8
-  Transformer 层数 = 32
-  每层 LoRA 参数 = 4(QKV+O) × 2 × d × r = 262,144
-  总 LoRA 参数 = 8,388,608 (8.4M)
-  全量微调参数 = 2,147,483,648 (2.1B)
-  参数比例 = 0.39% → 减少了 99.61% 的训练参数！
-
-============================================================
-💾 3. 显存需求估算
-============================================================
-  ...（显存需求表格和计算公式）
-
-============================================================
-🛠️  4. 本地微调工具链
-============================================================
-  1️⃣  Unsloth（最推荐，速度最快）
-  2️⃣  LLaMA-Factory（功能最全，中文友好）
-  3️⃣  PEFT（Hugging Face 官方）
-
-============================================================
-🚀 5. 微调 → 部署完整链路
-============================================================
-  ...（5 步部署流程）
-
-============================================================
-🔬 6. LoRA 变体与前沿技术
-============================================================
-  - LoRA: 基础版低秩适配
-  - QLoRA: 量化 + LoRA，显存效率最高
-  - DoRA: Weight-Decomposed LoRA，效果优于 LoRA
-  - rsLoRA: 改进的缩放策略，大秩时更稳定
-  - LoRA+: 差异化学习率（A 和 B 矩阵不同 lr）
-
-============================================================
-🎓 教程完成！
-============================================================
-```
-
-### 4.8 LoRA 变体速览
+### 4.7 LoRA 变体速览
 
 | 变体 | 核心改进 | 适用场景 |
 |------|---------|---------|
@@ -955,93 +830,7 @@ function generateReport(results: EvalResult[], label: string, judgeResults?: Jud
 }
 ```
 
-### 5.5 运行 `npm run evaluation` 输出
-
-```
-🚀 微调效果评估教程
-
-📋 评估数据集: 5 个问题
-✅ 使用模型提供商: deepseek
-
-============================================================
-🔬 模型评估测试
-============================================================
-
-📊 评估: 基座模型 (deepseek)
-----------------------------------------
-  ✅ [类型系统] 覆盖率: 75% | 1245ms
-  ✅ [泛型] 覆盖率: 100% | 982ms
-  ✅ [类型推断] 覆盖率: 67% | 1103ms
-  ✅ [异步编程] 覆盖率: 75% | 1056ms
-  ✅ [高级类型] 覆盖率: 50% | 1189ms
-
-============================================================
-📋 评估报告 — 基座模型 (deepseek)
-============================================================
-
-  成功率: 5/5 (100%)
-  平均概念覆盖率: 73.3%
-  平均响应时间: 1115ms
-  平均回答长度: 245 字符
-
-  分类表现:
-    类型系统: 覆盖率 75%
-    泛型: 覆盖率 100%
-    类型推断: 覆盖率 67%
-    异步编程: 覆盖率 75%
-    高级类型: 覆盖率 50%
-
-============================================================
-⚖️  LLM-as-Judge 评估
-============================================================
-
-📌 原理: 用一个更强的 LLM 作为评委，对回答打分
-  📝 [类型系统] 得分: 4/5 — 回答准确覆盖了主要区别，但缺少声明合并的详细说明
-  📝 [泛型] 得分: 5/5 — 准确全面地解释了泛型约束的概念和用法
-  📝 [类型推断] 得分: 4/5 — 基本准确，但对"最佳公共类型"的解释可以更深入
-
-  📊 LLM Judge 平均分: 4.3/5
-
-============================================================
-⚠️  5. 过拟合检测与缓解
-============================================================
-
-📌 过拟合的表现:
-  - 训练集上表现很好，但新问题回答很差
-  - 回答模式高度固定，缺乏灵活性
-  - 对问题的微小变化过于敏感
-  - 开始 '背诵' 训练数据中的回答
-
-📌 检测方法:
-  1. 训练集 vs 验证集 loss 对比
-  2. 训练数据内外对比测试
-  3. 回答多样性测试
-
-📌 缓解策略:
-  1. 减少训练轮次（n_epochs）: 3 → 2 甚至 1
-  2. 增加训练数据量和多样性
-  3. 使用 early stopping（监控验证 loss）
-  4. 增大 LoRA rank 或 dropout
-  5. 数据增强: 对问题进行改写增加多样性
-
-============================================================
-📊 评估总结
-============================================================
-
-📌 完整的评估策略:
-  1. 定义评估数据集（覆盖各种场景）
-  2. 基座模型 baseline 测试
-  3. 微调模型测试（相同数据集）
-  4. 对比分析（覆盖率、准确性、响应风格）
-  5. LLM-as-Judge 综合评分
-  6. 持续监控，发现退化及时回退
-
-============================================================
-🎓 Module 12 全部完成！
-============================================================
-```
-
-### 5.6 过拟合检测与缓解
+### 5.5 过拟合检测与缓解
 
 过拟合是微调中最常见的问题，尤其在数据量较小时：
 
@@ -1112,11 +901,9 @@ Prompt:       针对单次请求的行为引导
 4. **评估体系**三管齐下——关键概念覆盖率（快速筛查）+ LLM-as-Judge（深度评估）+ 过拟合检测（质量保障）
 5. Fine-tuning 和 RAG 是**互补关系**，完整链路：微调定制能力 → Ollama 部署 → RAG 补充知识 → Prompt 引导行为
 
-下一步：看看市面上的 AI 平台如何将这些技术封装成产品 → Module 13 AI 应用平台
-
 ## 八、参考资料
 
-### 官方文档
+**官方文档：**
 
 - **OpenAI Fine-tuning Guide**: [https://platform.openai.com/docs/guides/fine-tuning](https://platform.openai.com/docs/guides/fine-tuning)
 - **OpenAI API Reference — Fine-tuning**: [https://platform.openai.com/docs/api-reference/fine-tuning](https://platform.openai.com/docs/api-reference/fine-tuning)
@@ -1126,14 +913,3 @@ Prompt:       针对单次请求的行为引导
 - **LLaMA-Factory GitHub**: [https://github.com/hiyouga/LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)
 - **HuggingFace PEFT**: [https://huggingface.co/docs/peft](https://huggingface.co/docs/peft)
 - **Vercel AI SDK**: [https://sdk.vercel.ai/docs](https://sdk.vercel.ai/docs)
-
-### 相关代码
-
-- **Module 12 完整代码**: [12-fine-tuning/src/](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/12-fine-tuning/src)
-  - `data-preparation.ts` — 数据准备完整流程（无需 API Key）
-  - `fine-tuning-api.ts` — OpenAI Fine-tuning API 实战（需 OpenAI Key）
-  - `lora-concepts.ts` — LoRA/QLoRA 原理讲解（无需 API Key）
-  - `evaluation.ts` — 微调效果评估（需 API Key）
-- **Module 10 本地部署**: [10-deployment/](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/10-deployment) — Ollama 部署与 model-adapter
-- **Module 03 Structured Output**: [03-prompt_engineering/](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/03-prompt_engineering) — Zod schema + generateObject
-- **Module 04/05 RAG**: [04-rag/](https://github.com/csxiaoyaojianxian/LLM-Study/tree/main/04-rag) — RAG 流水线（与 Fine-tuning 互补）
